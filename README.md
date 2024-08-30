@@ -1,4 +1,4 @@
-It currently contains only 1 item, forked from [Mrbysco](https://github.com/Mrbysco/Measurements) but converted to kotlin + some additions I think it was missing.
+It currently contains only 1 item, forked from [Mrbysco](https://github.com/Mrbysco/Measurements) but converted to kotlin, uses NeoForge instead of Forge + some additions I think it was missing.
 
 - It renders a full wireframe instead of just the edges.
 - It does not care about being obstructed. It never occludes
