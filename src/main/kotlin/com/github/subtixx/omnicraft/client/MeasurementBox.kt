@@ -7,6 +7,7 @@ import com.mojang.blaze3d.vertex.VertexConsumer
 import net.minecraft.client.Camera
 import net.minecraft.client.Minecraft
 import net.minecraft.client.gui.Font
+import net.minecraft.client.gui.GuiGraphics
 import net.minecraft.client.renderer.GameRenderer
 import net.minecraft.client.renderer.MultiBufferSource
 import net.minecraft.client.renderer.RenderBuffers
@@ -15,6 +16,7 @@ import net.minecraft.client.renderer.culling.Frustum
 import net.minecraft.core.BlockPos
 import net.minecraft.network.chat.Component
 import net.minecraft.resources.ResourceKey
+import net.minecraft.util.FastColor
 import net.minecraft.world.item.DyeColor
 import net.minecraft.world.level.Level
 import net.minecraft.world.phys.AABB
@@ -22,7 +24,6 @@ import net.minecraft.world.phys.Vec3
 import org.joml.Matrix4f
 import kotlin.math.max
 import kotlin.math.min
-
 
 // Credit: MadeBaruna - https://github.com/MadeBaruna/BlockMeter/blob/master/src/main/java/win/baruna/blockmeter/MeasureBox.java
 class MeasurementBox internal constructor(
@@ -126,10 +127,9 @@ class MeasurementBox internal constructor(
     ) {
         if (box == null) return
 
-        val color: FloatArray = lineColor.textureDiffuseColors
-        val r = color[0]
-        val g = color[1]
-        val b = color[2]
+        val r = FastColor.ARGB32.red(lineColor.textureDiffuseColor) / 255.0f
+        val g = FastColor.ARGB32.green(lineColor.textureDiffuseColor) / 255.0f
+        val b = FastColor.ARGB32.blue(lineColor.textureDiffuseColor) / 255.0f
         val a = 0.95f
 
         val pos: Vec3 = camera.position
@@ -173,30 +173,30 @@ class MeasurementBox internal constructor(
         RenderSystem.defaultBlendFunc()
         RenderSystem.setShader { GameRenderer.getPositionColorShader() }
 
-        builder.vertex(pose, f, f1, f2).color(red, green2, blue2, alpha).normal(pose, 1.0f, 0.0f, 0.0f).endVertex()
-        builder.vertex(pose, f3, f1, f2).color(red, green2, blue2, alpha).normal(pose, 1.0f, 0.0f, 0.0f).endVertex()
-        builder.vertex(pose, f, f1, f2).color(red2, green, blue2, alpha).normal(pose, 0.0f, 1.0f, 0.0f).endVertex()
-        builder.vertex(pose, f, f4, f2).color(red2, green, blue2, alpha).normal(pose, 0.0f, 1.0f, 0.0f).endVertex()
-        builder.vertex(pose, f, f1, f2).color(red2, green2, blue, alpha).normal(pose, 0.0f, 0.0f, 1.0f).endVertex()
-        builder.vertex(pose, f, f1, f5).color(red2, green2, blue, alpha).normal(pose, 0.0f, 0.0f, 1.0f).endVertex()
-        builder.vertex(pose, f3, f1, f2).color(red, green, blue, alpha).normal(pose, 0.0f, 1.0f, 0.0f).endVertex()
-        builder.vertex(pose, f3, f4, f2).color(red, green, blue, alpha).normal(pose, 0.0f, 1.0f, 0.0f).endVertex()
-        builder.vertex(pose, f3, f4, f2).color(red, green, blue, alpha).normal(pose, -1.0f, 0.0f, 0.0f).endVertex()
-        builder.vertex(pose, f, f4, f2).color(red, green, blue, alpha).normal(pose, -1.0f, 0.0f, 0.0f).endVertex()
-        builder.vertex(pose, f, f4, f2).color(red, green, blue, alpha).normal(pose, 0.0f, 0.0f, 1.0f).endVertex()
-        builder.vertex(pose, f, f4, f5).color(red, green, blue, alpha).normal(pose, 0.0f, 0.0f, 1.0f).endVertex()
-        builder.vertex(pose, f, f4, f5).color(red, green, blue, alpha).normal(pose, 0.0f, -1.0f, 0.0f).endVertex()
-        builder.vertex(pose, f, f1, f5).color(red, green, blue, alpha).normal(pose, 0.0f, -1.0f, 0.0f).endVertex()
-        builder.vertex(pose, f, f1, f5).color(red, green, blue, alpha).normal(pose, 1.0f, 0.0f, 0.0f).endVertex()
-        builder.vertex(pose, f3, f1, f5).color(red, green, blue, alpha).normal(pose, 1.0f, 0.0f, 0.0f).endVertex()
-        builder.vertex(pose, f3, f1, f5).color(red, green, blue, alpha).normal(pose, 0.0f, 0.0f, -1.0f).endVertex()
-        builder.vertex(pose, f3, f1, f2).color(red, green, blue, alpha).normal(pose, 0.0f, 0.0f, -1.0f).endVertex()
-        builder.vertex(pose, f, f4, f5).color(red, green, blue, alpha).normal(pose, 1.0f, 0.0f, 0.0f).endVertex()
-        builder.vertex(pose, f3, f4, f5).color(red, green, blue, alpha).normal(pose, 1.0f, 0.0f, 0.0f).endVertex()
-        builder.vertex(pose, f3, f1, f5).color(red, green, blue, alpha).normal(pose, 0.0f, 1.0f, 0.0f).endVertex()
-        builder.vertex(pose, f3, f4, f5).color(red, green, blue, alpha).normal(pose, 0.0f, 1.0f, 0.0f).endVertex()
-        builder.vertex(pose, f3, f4, f2).color(red, green, blue, alpha).normal(pose, 0.0f, 0.0f, 1.0f).endVertex()
-        builder.vertex(pose, f3, f4, f5).color(red, green, blue, alpha).normal(pose, 0.0f, 0.0f, 1.0f).endVertex()
+        builder.addVertex(pose, f, f1, f2).setColor(red, green2, blue2, alpha).setNormal(pose, 1.0f, 0.0f, 0.0f)
+        builder.addVertex(pose, f3, f1, f2).setColor(red, green2, blue2, alpha).setNormal(pose, 1.0f, 0.0f, 0.0f)
+        builder.addVertex(pose, f, f1, f2).setColor(red2, green, blue2, alpha).setNormal(pose, 0.0f, 1.0f, 0.0f)
+        builder.addVertex(pose, f, f4, f2).setColor(red2, green, blue2, alpha).setNormal(pose, 0.0f, 1.0f, 0.0f)
+        builder.addVertex(pose, f, f1, f2).setColor(red2, green2, blue, alpha).setNormal(pose, 0.0f, 0.0f, 1.0f)
+        builder.addVertex(pose, f, f1, f5).setColor(red2, green2, blue, alpha).setNormal(pose, 0.0f, 0.0f, 1.0f)
+        builder.addVertex(pose, f3, f1, f2).setColor(red, green, blue, alpha).setNormal(pose, 0.0f, 1.0f, 0.0f)
+        builder.addVertex(pose, f3, f4, f2).setColor(red, green, blue, alpha).setNormal(pose, 0.0f, 1.0f, 0.0f)
+        builder.addVertex(pose, f3, f4, f2).setColor(red, green, blue, alpha).setNormal(pose, -1.0f, 0.0f, 0.0f)
+        builder.addVertex(pose, f, f4, f2).setColor(red, green, blue, alpha).setNormal(pose, -1.0f, 0.0f, 0.0f)
+        builder.addVertex(pose, f, f4, f2).setColor(red, green, blue, alpha).setNormal(pose, 0.0f, 0.0f, 1.0f)
+        builder.addVertex(pose, f, f4, f5).setColor(red, green, blue, alpha).setNormal(pose, 0.0f, 0.0f, 1.0f)
+        builder.addVertex(pose, f, f4, f5).setColor(red, green, blue, alpha).setNormal(pose, 0.0f, -1.0f, 0.0f)
+        builder.addVertex(pose, f, f1, f5).setColor(red, green, blue, alpha).setNormal(pose, 0.0f, -1.0f, 0.0f)
+        builder.addVertex(pose, f, f1, f5).setColor(red, green, blue, alpha).setNormal(pose, 1.0f, 0.0f, 0.0f)
+        builder.addVertex(pose, f3, f1, f5).setColor(red, green, blue, alpha).setNormal(pose, 1.0f, 0.0f, 0.0f)
+        builder.addVertex(pose, f3, f1, f5).setColor(red, green, blue, alpha).setNormal(pose, 0.0f, 0.0f, -1.0f)
+        builder.addVertex(pose, f3, f1, f2).setColor(red, green, blue, alpha).setNormal(pose, 0.0f, 0.0f, -1.0f)
+        builder.addVertex(pose, f, f4, f5).setColor(red, green, blue, alpha).setNormal(pose, 1.0f, 0.0f, 0.0f)
+        builder.addVertex(pose, f3, f4, f5).setColor(red, green, blue, alpha).setNormal(pose, 1.0f, 0.0f, 0.0f)
+        builder.addVertex(pose, f3, f1, f5).setColor(red, green, blue, alpha).setNormal(pose, 0.0f, 1.0f, 0.0f)
+        builder.addVertex(pose, f3, f4, f5).setColor(red, green, blue, alpha).setNormal(pose, 0.0f, 1.0f, 0.0f)
+        builder.addVertex(pose, f3, f4, f2).setColor(red, green, blue, alpha).setNormal(pose, 0.0f, 0.0f, 1.0f)
+        builder.addVertex(pose, f3, f4, f5).setColor(red, green, blue, alpha).setNormal(pose, 0.0f, 0.0f, 1.0f)
 
 
         bufferSource.endBatch(renderType)
@@ -205,35 +205,35 @@ class MeasurementBox internal constructor(
         val builder2: VertexConsumer = bufferSource.getBuffer(renderType2)
 
         // Render all 6 faces as quads
-        builder2.vertex(pose, f, f1, f2).color(r, g, b, a / 2).normal(pose, 0.0f, -1.0f, 0.0f).endVertex()
-        builder2.vertex(pose, f3, f1, f2).color(r, g, b, a / 2).normal(pose, 0.0f, -1.0f, 0.0f).endVertex()
-        builder2.vertex(pose, f3, f1, f5).color(r, g, b, a / 2).normal(pose, 0.0f, -1.0f, 0.0f).endVertex()
-        builder2.vertex(pose, f, f1, f5).color(r, g, b, a / 2).normal(pose, 0.0f, -1.0f, 0.0f).endVertex()
+        builder2.addVertex(pose, f, f1, f2).setColor(r, g, b, a / 2).setNormal(pose, 0.0f, -1.0f, 0.0f)
+        builder2.addVertex(pose, f3, f1, f2).setColor(r, g, b, a / 2).setNormal(pose, 0.0f, -1.0f, 0.0f)
+        builder2.addVertex(pose, f3, f1, f5).setColor(r, g, b, a / 2).setNormal(pose, 0.0f, -1.0f, 0.0f)
+        builder2.addVertex(pose, f, f1, f5).setColor(r, g, b, a / 2).setNormal(pose, 0.0f, -1.0f, 0.0f)
 
-        builder2.vertex(pose, f, f4, f2).color(r, g, b, a / 2).normal(pose, 0.0f, 1.0f, 0.0f).endVertex()
-        builder2.vertex(pose, f3, f4, f2).color(r, g, b, a / 2).normal(pose, 0.0f, 1.0f, 0.0f).endVertex()
-        builder2.vertex(pose, f3, f4, f5).color(r, g, b, a / 2).normal(pose, 0.0f, 1.0f, 0.0f).endVertex()
-        builder2.vertex(pose, f, f4, f5).color(r, g, b, a / 2).normal(pose, 0.0f, 1.0f, 0.0f).endVertex()
+        builder2.addVertex(pose, f, f4, f2).setColor(r, g, b, a / 2).setNormal(pose, 0.0f, 1.0f, 0.0f)
+        builder2.addVertex(pose, f3, f4, f2).setColor(r, g, b, a / 2).setNormal(pose, 0.0f, 1.0f, 0.0f)
+        builder2.addVertex(pose, f3, f4, f5).setColor(r, g, b, a / 2).setNormal(pose, 0.0f, 1.0f, 0.0f)
+        builder2.addVertex(pose, f, f4, f5).setColor(r, g, b, a / 2).setNormal(pose, 0.0f, 1.0f, 0.0f)
 
-        builder2.vertex(pose, f, f1, f2).color(r, g, b, a / 2).normal(pose, -1.0f, 0.0f, 0.0f).endVertex()
-        builder2.vertex(pose, f, f4, f2).color(r, g, b, a / 2).normal(pose, -1.0f, 0.0f, 0.0f).endVertex()
-        builder2.vertex(pose, f, f4, f5).color(r, g, b, a / 2).normal(pose, -1.0f, 0.0f, 0.0f).endVertex()
-        builder2.vertex(pose, f, f1, f5).color(r, g, b, a / 2).normal(pose, -1.0f, 0.0f, 0.0f).endVertex()
+        builder2.addVertex(pose, f, f1, f2).setColor(r, g, b, a / 2).setNormal(pose, -1.0f, 0.0f, 0.0f)
+        builder2.addVertex(pose, f, f4, f2).setColor(r, g, b, a / 2).setNormal(pose, -1.0f, 0.0f, 0.0f)
+        builder2.addVertex(pose, f, f4, f5).setColor(r, g, b, a / 2).setNormal(pose, -1.0f, 0.0f, 0.0f)
+        builder2.addVertex(pose, f, f1, f5).setColor(r, g, b, a / 2).setNormal(pose, -1.0f, 0.0f, 0.0f)
 
-        builder2.vertex(pose, f3, f1, f2).color(r, g, b, a / 2).normal(pose, 1.0f, 0.0f, 0.0f).endVertex()
-        builder2.vertex(pose, f3, f4, f2).color(r, g, b, a / 2).normal(pose, 1.0f, 0.0f, 0.0f).endVertex()
-        builder2.vertex(pose, f3, f4, f5).color(r, g, b, a / 2).normal(pose, 1.0f, 0.0f, 0.0f).endVertex()
-        builder2.vertex(pose, f3, f1, f5).color(r, g, b, a / 2).normal(pose, 1.0f, 0.0f, 0.0f).endVertex()
+        builder2.addVertex(pose, f3, f1, f2).setColor(r, g, b, a / 2).setNormal(pose, 1.0f, 0.0f, 0.0f)
+        builder2.addVertex(pose, f3, f4, f2).setColor(r, g, b, a / 2).setNormal(pose, 1.0f, 0.0f, 0.0f)
+        builder2.addVertex(pose, f3, f4, f5).setColor(r, g, b, a / 2).setNormal(pose, 1.0f, 0.0f, 0.0f)
+        builder2.addVertex(pose, f3, f1, f5).setColor(r, g, b, a / 2).setNormal(pose, 1.0f, 0.0f, 0.0f)
 
-        builder2.vertex(pose, f, f1, f2).color(r, g, b, a / 2).normal(pose, 0.0f, 0.0f, -1.0f).endVertex()
-        builder2.vertex(pose, f3, f1, f2).color(r, g, b, a / 2).normal(pose, 0.0f, 0.0f, -1.0f).endVertex()
-        builder2.vertex(pose, f3, f4, f2).color(r, g, b, a / 2).normal(pose, 0.0f, 0.0f, -1.0f).endVertex()
-        builder2.vertex(pose, f, f4, f2).color(r, g, b, a / 2).normal(pose, 0.0f, 0.0f, -1.0f).endVertex()
+        builder2.addVertex(pose, f, f1, f2).setColor(r, g, b, a / 2).setNormal(pose, 0.0f, 0.0f, -1.0f)
+        builder2.addVertex(pose, f3, f1, f2).setColor(r, g, b, a / 2).setNormal(pose, 0.0f, 0.0f, -1.0f)
+        builder2.addVertex(pose, f3, f4, f2).setColor(r, g, b, a / 2).setNormal(pose, 0.0f, 0.0f, -1.0f)
+        builder2.addVertex(pose, f, f4, f2).setColor(r, g, b, a / 2).setNormal(pose, 0.0f, 0.0f, -1.0f)
 
-        builder2.vertex(pose, f, f1, f5).color(r, g, b, a / 2).normal(pose, 0.0f, 0.0f, 1.0f).endVertex()
-        builder2.vertex(pose, f3, f1, f5).color(r, g, b, a / 2).normal(pose, 0.0f, 0.0f, 1.0f).endVertex()
-        builder2.vertex(pose, f3, f4, f5).color(r, g, b, a / 2).normal(pose, 0.0f, 0.0f, 1.0f).endVertex()
-        builder2.vertex(pose, f, f4, f5).color(r, g, b, a / 2).normal(pose, 0.0f, 0.0f, 1.0f).endVertex()
+        builder2.addVertex(pose, f, f1, f5).setColor(r, g, b, a / 2).setNormal(pose, 0.0f, 0.0f, 1.0f)
+        builder2.addVertex(pose, f3, f1, f5).setColor(r, g, b, a / 2).setNormal(pose, 0.0f, 0.0f, 1.0f)
+        builder2.addVertex(pose, f3, f4, f5).setColor(r, g, b, a / 2).setNormal(pose, 0.0f, 0.0f, 1.0f)
+        builder2.addVertex(pose, f, f4, f5).setColor(r, g, b, a / 2).setNormal(pose, 0.0f, 0.0f, 1.0f)
 
         bufferSource.endBatch(renderType2)
 
@@ -243,7 +243,7 @@ class MeasurementBox internal constructor(
         drawLength(poseStack, camera, projection, bufferSource)
     }
 
-    fun renderGui(guiGraphics: net.minecraft.client.gui.GuiGraphics, textColor: Int) {
+    fun renderGui(guiGraphics: GuiGraphics, textColor: Int) {
         if (box == null) return
 
         val lengthX: Int = box!!.xsize.toInt()

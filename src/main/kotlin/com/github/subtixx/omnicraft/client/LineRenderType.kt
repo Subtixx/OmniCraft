@@ -39,7 +39,7 @@ class LineRenderType(
         fun translucentLineRenderType(lineWidth: Float): RenderType {
             return create(
                 "translucent_lines",
-                DefaultVertexFormat.POSITION_COLOR_NORMAL, VertexFormat.Mode.QUADS, 256, false, false,
+                DefaultVertexFormat.POSITION_COLOR, VertexFormat.Mode.QUADS, 256, false, false,
                 CompositeState.builder().setShaderState(RENDERTYPE_LINES_SHADER)
                     .setLineState(LineStateShard(OptionalDouble.of(lineWidth.toDouble())))
                     .setLayeringState(VIEW_OFFSET_Z_LAYERING)
