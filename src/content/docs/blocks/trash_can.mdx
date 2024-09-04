@@ -1,0 +1,32 @@
+---
+title: Trash Can
+description: A guide to using the trash can.
+prev: false
+next: false
+---
+
+import CollectionList from '../../../components/CollectionList.astro';
+
+import { Image } from 'astro:assets';
+import TrashCan from '../../../assets/blocks/trash_can.png';
+import TrashCanGui from '../../../assets/gui/trash_can.png';
+
+<div style="min-height: 200px;">
+    <Image src={TrashCan} alt="Trash Can" 
+        style="width: 100%; max-width: 200px; float: right; margin: 0 0 1em 1em;" />
+    The trash can is a block that can be used to delete items from your inventory, or to void items from a transport system (e.g. pipes, hoppers etc.).
+</div>
+
+## Deleting Items
+
+<div style="min-height: 200px;">
+    <Image src={TrashCanGui} alt="Deleting Items" 
+        style="width: 100%; max-width: 200px; float: right; margin: 0 0 1em 1em;" />
+
+    To delete an item from your inventory, simply right-click on the trash can with the item in hand
+    or right-click on the trash can to open the GUI and place the item in the input slot.
+</div>
+
+<CollectionList
+    title='Other Blocks'
+    filterFunc={(item) => item.id.startsWith("blocks/") && item.slug !== "blocks/trash_can"} />

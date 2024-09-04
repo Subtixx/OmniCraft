@@ -1,0 +1,90 @@
+---
+interface Props {
+    title: string;
+    filterFunc: (item: any) => boolean;
+}
+
+const { title, filterFunc } = Astro.props
+
+import { getCollection } from "astro:content";
+import { Image } from "astro:assets";
+
+const items = (await getCollection("docs"))
+    .filter(filterFunc)
+    .filter((item: any) => !item.id.endsWith("index.mdx"));
+
+function singleItem(item: any) {
+    let name = item.id.split("/")[1].split(".")[0];
+    let thumbnailPath = `../assets/${item.slug}.png`;
+    return {
+        title: name.charAt(0).toUpperCase() + name.slice(1),
+        href: `/docs/${name}`,
+        thumbnail: import(thumbnailPath),
+    };
+}
+---
+
+<h3>{title}</h3>
+
+<!-- grid of 3 cols -->
+<div style="display: grid; gap: 1rem; grid-template-columns: repeat(auto-fit, minmax(min(100%, 11rem), 1fr));">
+    {
+        items
+        .map(singleItem).map((item: any) => (
+            <div class="not-content sl-flex">
+                <a href={`/docs/${item.title}`} class="starlight-showcases-media-card">
+                <div class="starlight-showcases-media-asset">
+                    <Image src={item.thumbnail} alt="" />
+                </div>
+                <div class="starlight-showcases-media-infos sl-flex">
+                    <p class="starlight-showcases-media-title">{item.title}</p>
+                    <!--{description && <p class="starlight-showcases-media-description">{description}</p>}-->
+                </div>
+                </a>
+            </div>
+        ))
+    }
+</div>
+
+<style>
+    .starlight-showcases-media-card {
+        border: 1px solid var(--sl-color-gray-5);
+        border-radius: 0.5rem;
+        box-shadow: var(--sl-shadow-sm);
+        overflow: hidden;
+        text-decoration: none;
+        max-width: 11rem;
+    }
+
+    a.starlight-showcases-media-card:hover {
+        background-color: var(--sl-color-gray-7, var(--sl-color-gray-6));
+        border-color: var(--sl-color-gray-2);
+    }
+
+    .starlight-showcases-media-asset :global(img) {
+        aspect-ratio: 16 / 9;
+        display: block;
+        height: auto;
+        max-width: 100%;
+        object-fit: cover;
+    }
+
+    .starlight-showcases-media-infos {
+        border-top: 1px solid var(--sl-color-gray-5);
+        flex-direction: column;
+        gap: 0.5rem;
+        padding: 0.75rem 1rem;
+    }
+
+    .starlight-showcases-media-title {
+        color: var(--sl-color-white);
+        font-size: var(--sl-text-base);
+        font-weight: 600;
+        line-height: var(--sl-line-height-headings);
+    }
+
+    .starlight-showcases-media-description {
+        color: var(--sl-color-gray-3);
+        line-height: 1.5;
+    }
+</style>

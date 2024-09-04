@@ -5,6 +5,8 @@ prev: false
 next: false
 ---
 
+import CollectionList from '../../../components/CollectionList.astro';
+
 import { Image } from 'astro:assets';
 import Wrench from '../../../assets/items/wrench.png';
 import WrenchAnimated from '../../../assets/items/wrench.webp';
@@ -12,10 +14,9 @@ import WrenchAnimated from '../../../assets/items/wrench.webp';
 <div style="min-height: 200px;">
 <Image src={Wrench} alt="Wrench" 
     style="width: 100%; max-width: 200px; float: right; margin: 0 0 1em 1em;" />
+    The wrench is a versatile tool for manipulating vanilla, modded and Omnicraft Blocks.
 
-The wrench is a versatile tool for manipulating vanilla, modded and Omnicraft Blocks.
-
-Currently, the wrench can be used to rotate blocks, and in the future, it will be used for more advanced block manipulation.
+    Currently, the wrench can be used to rotate blocks, and in the future, it will be used for more advanced block manipulation.
 </div>
 
 ## Rotating Blocks
@@ -31,3 +32,7 @@ If a block has any kind of interaction, such as opening a GUI, it is necessary t
 
 If a block can be rotated in more than one direction (e.g. a log block), 
 clicking on different sides of the block will rotate it in different directions.
+
+<CollectionList
+    title='Other Items'
+    filterFunc={(item) => item.id.startsWith("items/") && item.slug !== "items/wrench"} />
