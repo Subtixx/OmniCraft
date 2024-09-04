@@ -1,0 +1,33 @@
+---
+title: Wrench
+description: A guide to using the wrench.
+prev: false
+next: false
+---
+
+import { Image } from 'astro:assets';
+import Wrench from '../../../assets/items/wrench.png';
+import WrenchAnimated from '../../../assets/items/wrench.webp';
+
+<div style="min-height: 200px;">
+<Image src={Wrench} alt="Wrench" 
+    style="width: 100%; max-width: 200px; float: right; margin: 0 0 1em 1em;" />
+
+The wrench is a versatile tool for manipulating vanilla, modded and Omnicraft Blocks.
+
+Currently, the wrench can be used to rotate blocks, and in the future, it will be used for more advanced block manipulation.
+</div>
+
+## Rotating Blocks
+
+<Image src={WrenchAnimated} alt="Rotating Blocks" 
+    style="width: 100%; max-width: 200px; float: right; margin: 0 0 1em 1em;" />
+
+To rotate a block, simply right-click on the block with the wrench in hand.
+The block will rotate 90 degrees clockwise with each right-click.
+If a block has any kind of interaction, such as opening a GUI, it is necessary to sneak-right-click to rotate the block.
+
+### Multi-Rotation
+
+If a block can be rotated in more than one direction (e.g. a log block), 
+clicking on different sides of the block will rotate it in different directions.
