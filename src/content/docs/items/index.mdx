@@ -1,0 +1,24 @@
+---
+title: Index
+description: Explore the items available in Omnicraft.
+prev: 
+  link: /guides
+  label: Guides
+next:
+  link: /blocks
+  label: Blocks
+---
+
+import { LinkCard, Card, CardGrid } from '@astrojs/starlight/components';
+import { ShowcaseImage } from 'starlight-showcases'
+
+<ShowcaseImage
+  entries={[
+    {
+      thumbnail: import('../../../assets/items/wrench.png'),
+      href: '/items/wrench',
+      title: 'Wrench',
+      description: 'A versatile tool for manipulating blocks.',
+    },
+  ]}
+/>

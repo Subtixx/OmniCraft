@@ -1,0 +1,23 @@
+---
+title: Welcome to the Docs for Omnicraft
+description: Guides, reference, and more for Omnicraft.
+template: splash
+hero:
+  tagline: New to Omnicraft? Start here.
+  image:
+    file: ../../assets/Generator.png
+  actions:
+    - text: Getting Started
+      link: /guides/start/
+      icon: right-arrow
+---
+
+import { LinkCard, Card, CardGrid } from '@astrojs/starlight/components';
+
+## Dig deeper
+
+<CardGrid>
+	<LinkCard title="Items" description="Explore the items available in Omnicraft." href="/items" />
+	<LinkCard title="Blocks" description="Discover the blocks available in Omnicraft." href="/blocks" />
+	<LinkCard title="Recipes" description="Learn how to craft items in Omnicraft." href="/recipes" />
+</CardGrid>
