@@ -4,6 +4,8 @@ import starlightHeadingBadges from 'starlight-heading-badges'
 
 // https://astro.build/config
 export default defineConfig({
+	site: 'https://subtixx.github.io',
+	base: 'OmniCraft',
 	integrations: [
 		starlight({
 			plugins: [starlightHeadingBadges()],
