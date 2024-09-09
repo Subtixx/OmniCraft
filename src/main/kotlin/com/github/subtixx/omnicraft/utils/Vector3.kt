@@ -50,7 +50,7 @@ class Vector3 : Copyable<Vector3?> {
     }
 
     fun pos(): BlockPos {
-        return BlockPos(MathHelper.floor(x), MathHelper.floor(y), MathHelper.floor(z))
+        return BlockPos(MathUtil.floor(x), MathUtil.floor(y), MathUtil.floor(z))
     }
 
     fun writeToNBT(tag: CompoundTag): CompoundTag {
@@ -185,16 +185,16 @@ class Vector3 : Copyable<Vector3?> {
     }
 
     fun floor(): Vector3 {
-        x = MathHelper.floor(x).toDouble()
-        y = MathHelper.floor(y).toDouble()
-        z = MathHelper.floor(z).toDouble()
+        x = MathUtil.floor(x).toDouble()
+        y = MathUtil.floor(y).toDouble()
+        z = MathUtil.floor(z).toDouble()
         return this
     }
 
     fun ceil(): Vector3 {
-        x = MathHelper.ceil(x).toDouble()
-        y = MathHelper.ceil(y).toDouble()
-        z = MathHelper.ceil(z).toDouble()
+        x = MathUtil.ceil(x).toDouble()
+        y = MathUtil.ceil(y).toDouble()
+        z = MathUtil.ceil(z).toDouble()
         return this
     }
 
@@ -326,11 +326,11 @@ class Vector3 : Copyable<Vector3?> {
         }
 
         val d = (px - x) / dx
-        if (MathHelper.between(-1E-5, d, 1E-5)) {
+        if (MathUtil.between(-1E-5, d, 1E-5)) {
             return this
         }
 
-        if (!MathHelper.between(0.0, d, 1.0)) {
+        if (!MathUtil.between(0.0, d, 1.0)) {
             return null
         }
 
@@ -350,11 +350,11 @@ class Vector3 : Copyable<Vector3?> {
         }
 
         val d = (py - y) / dy
-        if (MathHelper.between(-1E-5, d, 1E-5)) {
+        if (MathUtil.between(-1E-5, d, 1E-5)) {
             return this
         }
 
-        if (!MathHelper.between(0.0, d, 1.0)) {
+        if (!MathUtil.between(0.0, d, 1.0)) {
             return null
         }
 
@@ -374,11 +374,11 @@ class Vector3 : Copyable<Vector3?> {
         }
 
         val d = (pz - z) / dz
-        if (MathHelper.between(-1E-5, d, 1E-5)) {
+        if (MathUtil.between(-1E-5, d, 1E-5)) {
             return this
         }
 
-        if (!MathHelper.between(0.0, d, 1.0)) {
+        if (!MathUtil.between(0.0, d, 1.0)) {
             return null
         }
 
@@ -440,11 +440,11 @@ class Vector3 : Copyable<Vector3?> {
      * @return true if this is equal to v within +-1E-5
      */
     fun equalsT(v: Vector3): Boolean {
-        return MathHelper.between(x - 1E-5, v.x, x + 1E-5) && MathHelper.between(
+        return MathUtil.between(x - 1E-5, v.x, x + 1E-5) && MathUtil.between(
             y - 1E-5,
             v.y,
             y + 1E-5
-        ) && MathHelper.between(z - 1E-5, v.z, z + 1E-5)
+        ) && MathUtil.between(z - 1E-5, v.z, z + 1E-5)
     }
 
     override fun copy(): Vector3 {

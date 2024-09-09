@@ -11,8 +11,7 @@ import java.math.BigDecimal
 import java.math.MathContext
 import java.math.RoundingMode
 
-
-class Cuboid6 : Copyable<Cuboid6?> {
+class Cuboid6 : Copyable<Cuboid6> {
     var min: Vector3
     var max: Vector3
 

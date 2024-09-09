@@ -1,30 +1,45 @@
 package com.github.subtixx.omnicraft.utils
 
-import com.github.subtixx.omnicraft.config.LineColor
-import com.github.subtixx.omnicraft.config.TextColor
+import net.minecraft.util.FastColor
 import net.minecraft.world.item.DyeColor
+import kotlin.math.abs
 
-class Color {
+class Color(
+    /**
+     * Value between 0.0 and 1.0
+     */
+    val red: Float,
+    val green: Float,
+    val blue: Float,
+    val alpha: Float
+) {
+    constructor(packedColor: Int) : this(
+        (packedColor shr 16 and 0xFF) / 255f,
+        (packedColor shr 8 and 0xFF) / 255f,
+        (packedColor and 0xFF) / 255f,
+        (packedColor shr 24 and 0xFF) / 255f
+    )
 
-    companion object {
-        public fun getLineColor(colorIndex: Int): DyeColor {
-            if (colorIndex >= LineColor.entries.size) {
-                return LineColor.byId(0)
+    fun getClosestDyeColor(): DyeColor {
+        var bestColor = DyeColor.WHITE
+        var bestDifference = 1024
+
+        for (color in DyeColor.entries) {
+            val iColor = color.textureDiffuseColor
+
+            val iRed = FastColor.ARGB32.red(iColor)
+            val iGreen = FastColor.ARGB32.green(iColor)
+            val iBlue = FastColor.ARGB32.blue(iColor)
+
+            val difference =
+                (abs((red - iRed).toDouble()) + abs((green - iGreen).toDouble()) + abs((blue - iBlue).toDouble())).toInt()
+
+            if (difference < bestDifference) {
+                bestColor = color
+                bestDifference = difference
             }
-
-            val selectedColor = LineColor.byId(colorIndex)
-
-            return selectedColor
         }
 
-        public fun getTextColor(colorIndex: Int): DyeColor {
-            if (colorIndex >= TextColor.entries.size) {
-                return TextColor.byId(0)
-            }
-
-            val selectedColor = TextColor.byId(colorIndex)
-
-            return selectedColor
-        }
+        return bestColor
     }
 }

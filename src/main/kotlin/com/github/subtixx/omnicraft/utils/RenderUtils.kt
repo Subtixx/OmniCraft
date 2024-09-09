@@ -1,396 +1,639 @@
 package com.github.subtixx.omnicraft.utils
 
-import com.github.subtixx.omnicraft.client.LineRenderType
+import com.github.subtixx.omnicraft.utils.extensions.setColor
 import com.mojang.blaze3d.systems.RenderSystem
 import com.mojang.blaze3d.vertex.PoseStack
 import com.mojang.blaze3d.vertex.VertexConsumer
-import net.minecraft.client.Camera
-import net.minecraft.client.renderer.GameRenderer
-import net.minecraft.client.renderer.MultiBufferSource
-import net.minecraft.client.renderer.RenderBuffers
-import net.minecraft.client.renderer.RenderType
-import net.minecraft.util.FastColor
-import net.minecraft.world.item.DyeColor
+import net.minecraft.client.gui.GuiGraphics
+import net.minecraft.client.renderer.texture.TextureAtlasSprite
 import net.minecraft.world.phys.AABB
-import net.minecraft.world.phys.Vec3
 import net.minecraft.world.phys.shapes.VoxelShape
-import org.joml.Matrix4f
 
+@Suppress("unused")
+object RenderUtils {
+    /**
+     * Renders a fully textured, solid cuboid described by the provided [AABB], usually obtained from [VoxelShape.bounds].
+     * Texture widths (in pixels) are inferred to be 16 x the width of the quad, which matches normal block pixel texture sizes.
+     */
+    @JvmStatic
+    fun renderTexturedCuboid(
+        poseStack: PoseStack,
+        buffer: VertexConsumer,
+        sprite: TextureAtlasSprite,
+        packedLight: Int,
+        packedOverlay: Int,
+        bounds: AABB
+    ) {
+        renderTexturedCuboid(
+            poseStack,
+            buffer,
+            sprite,
+            packedLight,
+            packedOverlay,
+            bounds.minX.toFloat(),
+            bounds.minY.toFloat(),
+            bounds.minZ.toFloat(),
+            bounds.maxX.toFloat(),
+            bounds.maxY.toFloat(),
+            bounds.maxZ.toFloat()
+        )
+    }
 
-abstract class RenderUtils {
-    companion object {
-        private val vectors: Array<Vector3> = Array(8) { Vector3() }
+    /**
+     * Renders a fully textured, solid cuboid described by the shape (minX, minY, minZ) x (maxX, maxY, maxZ).
+     * Texture widths (in pixels) are inferred to be 16 x the width of the quad, which matches normal block pixel texture sizes.
+     */
+    @JvmStatic
+    fun renderTexturedCuboid(
+        poseStack: PoseStack,
+        buffer: VertexConsumer,
+        sprite: TextureAtlasSprite,
+        packedLight: Int,
+        packedOverlay: Int,
+        minX: Float,
+        minY: Float,
+        minZ: Float,
+        maxX: Float,
+        maxY: Float,
+        maxZ: Float
+    ) {
+        renderTexturedCuboid(
+            poseStack,
+            buffer,
+            sprite,
+            packedLight,
+            packedOverlay,
+            minX,
+            minY,
+            minZ,
+            maxX,
+            maxY,
+            maxZ,
+            16f * (maxX - minX),
+            16f * (maxY - minY),
+            16f * (maxZ - minZ),
+            true
+        )
+    }
 
-        fun renderBoundingBox(
-            poseStack: PoseStack,
-            renderBuffers: RenderBuffers,
-            camera: Camera,
-            projection: Matrix4f,
-            bb: AABB,
-            faces: Boolean,
-            lineWidth: Float,
-            lineDyeColor: DyeColor,
-            faceDyeColor: DyeColor
-        ) {
-            val cameraPosition: Vec3 = camera.position
-            val bufferSource: MultiBufferSource.BufferSource = renderBuffers.bufferSource()
+    @JvmStatic
+    fun renderTexturedCuboid(
+        poseStack: PoseStack,
+        buffer: VertexConsumer,
+        sprite: TextureAtlasSprite,
+        packedLight: Int,
+        packedOverlay: Int,
+        minX: Float,
+        minY: Float,
+        minZ: Float,
+        maxX: Float,
+        maxY: Float,
+        maxZ: Float,
+        doShade: Boolean
+    ) {
+        renderTexturedCuboid(
+            poseStack,
+            buffer,
+            sprite,
+            packedLight,
+            packedOverlay,
+            minX,
+            minY,
+            minZ,
+            maxX,
+            maxY,
+            maxZ,
+            16f * (maxX - minX),
+            16f * (maxY - minY),
+            16f * (maxZ - minZ),
+            doShade
+        )
+    }
 
-            poseStack.pushPose()
-            //Translate negative camera position
-            poseStack.translate(-cameraPosition.x, -cameraPosition.y, -cameraPosition.z)
+    /**
+     * Renders a fully textured, solid cuboid described by the shape (minX, minY, minZ) x (maxX, maxY, maxZ).
+     * (xPixels, yPixels, zPixels) represent pixel widths for each side, which are used for texture (u, v) purposes.
+     */
+    @JvmStatic
+    fun renderTexturedCuboid(
+        poseStack: PoseStack,
+        buffer: VertexConsumer,
+        sprite: TextureAtlasSprite,
+        packedLight: Int,
+        packedOverlay: Int,
+        minX: Float,
+        minY: Float,
+        minZ: Float,
+        maxX: Float,
+        maxY: Float,
+        maxZ: Float,
+        xPixels: Float,
+        yPixels: Float,
+        zPixels: Float,
+        doShade: Boolean
+    ) {
+        renderTexturedQuads(
+            poseStack,
+            buffer,
+            sprite,
+            packedLight,
+            packedOverlay,
+            getXVertices(minX, minY, minZ, maxX, maxY, maxZ),
+            zPixels,
+            yPixels,
+            1f,
+            0f,
+            0f,
+            doShade
+        )
+        renderTexturedQuads(
+            poseStack,
+            buffer,
+            sprite,
+            packedLight,
+            packedOverlay,
+            getYVertices(minX, minY, minZ, maxX, maxY, maxZ),
+            zPixels,
+            xPixels,
+            0f,
+            1f,
+            0f,
+            doShade
+        )
+        renderTexturedQuads(
+            poseStack,
+            buffer,
+            sprite,
+            packedLight,
+            packedOverlay,
+            getZVertices(minX, minY, minZ, maxX, maxY, maxZ),
+            xPixels,
+            yPixels,
+            0f,
+            0f,
+            1f,
+            doShade
+        )
+    }
 
-            RenderSystem.disableCull()
-            RenderSystem.disableDepthTest()
-            RenderSystem.enableBlend()
-            RenderSystem.defaultBlendFunc()
-            RenderSystem.setShader { GameRenderer.getPositionColorShader() }
+    /**
+     * <pre>
+     * Q------Q.  ^ y
+     * |`.    | `.|
+     * |  `Q--+---Q--> x = maxY
+     * |   |  |   |
+     * P---+--P.  |
+     * `. |    `.|
+     * `P------P = minY
+    </pre> *
+     *
+     * Renders a fully textured, solid trapezoidal cuboid described by the plane P, the plane Q, minY, and maxY.
+     * (xPixels, yPixels, zPixels) represent pixel widths for each side, which are used for texture (u, v) purposes.
+     */
+    @JvmStatic
+    fun renderTexturedTrapezoidalCuboid(
+        poseStack: PoseStack,
+        buffer: VertexConsumer,
+        sprite: TextureAtlasSprite,
+        packedLight: Int,
+        packedOverlay: Int,
+        pMinX: Float,
+        pMaxX: Float,
+        pMinZ: Float,
+        pMaxZ: Float,
+        qMinX: Float,
+        qMaxX: Float,
+        qMinZ: Float,
+        qMaxZ: Float,
+        minY: Float,
+        maxY: Float,
+        xPixels: Float,
+        yPixels: Float,
+        zPixels: Float,
+        invertNormal: Boolean
+    ) {
+        renderTexturedQuads(
+            poseStack,
+            buffer,
+            sprite,
+            packedLight,
+            packedOverlay,
+            getTrapezoidalCuboidXVertices(pMinX, pMaxX, pMinZ, pMaxZ, qMinX, qMaxX, qMinZ, qMaxZ, minY, maxY),
+            zPixels,
+            yPixels,
+            (if (invertNormal) 0 else 1).toFloat(),
+            0f,
+            (if (invertNormal) 1 else 0).toFloat(),
+            true
+        )
+        renderTexturedQuads(
+            poseStack,
+            buffer,
+            sprite,
+            packedLight,
+            packedOverlay,
+            getTrapezoidalCuboidYVertices(pMinX, pMaxX, pMinZ, pMaxZ, qMinX, qMaxX, qMinZ, qMaxZ, minY, maxY),
+            zPixels,
+            xPixels,
+            0f,
+            1f,
+            0f,
+            true
+        )
+        renderTexturedQuads(
+            poseStack,
+            buffer,
+            sprite,
+            packedLight,
+            packedOverlay,
+            getTrapezoidalCuboidZVertices(pMinX, pMaxX, pMinZ, pMaxZ, qMinX, qMaxX, qMinZ, qMaxZ, minY, maxY),
+            xPixels,
+            yPixels,
+            (if (invertNormal) 1 else 0).toFloat(),
+            0f,
+            (if (invertNormal) 0 else 1).toFloat(),
+            true
+        )
+    }
 
-
-            val lineColorR = FastColor.ARGB32.red(lineDyeColor.textureDiffuseColor) / 255.0F
-            val lineColorG = FastColor.ARGB32.green(lineDyeColor.textureDiffuseColor) / 255.0F
-            val lineColorB = FastColor.ARGB32.blue(lineDyeColor.textureDiffuseColor) / 255.0F
-            val lineColorA = 0.95F
-
-            val faceColorR = FastColor.ARGB32.red(faceDyeColor.textureDiffuseColor) / 255.0F
-            val faceColorG = FastColor.ARGB32.green(faceDyeColor.textureDiffuseColor) / 255.0F
-            val faceColorB = FastColor.ARGB32.blue(faceDyeColor.textureDiffuseColor) / 255.0F
-            val faceColorA = 0.75F
-
-            renderOutline(lineWidth, bufferSource, poseStack, bb, lineColorR, lineColorG, lineColorB, lineColorA)
-            if (faces) {
-                renderFaces(bufferSource, poseStack, bb, faceColorR, faceColorG, faceColorB, faceColorA)
-            }
-            RenderSystem.enableCull()
-            RenderSystem.enableDepthTest()
-            RenderSystem.disableBlend()
-            poseStack.popPose()
+    /**
+     * Renders a single textured quad, either by itself or as part of a larger cuboid construction.
+     * `vertices` must be a set of vertices, usually obtained through [.getXVertices], [.getYVertices], or [.getZVertices]. Parameters are (x, y, z, u, v, normalSign) for each vertex.
+     * (normalX, normalY, normalZ) are the normal vectors (positive), for the quad. For example, for an X quad, this will be (1, 0, 0).
+     *
+     * @param vertices The vertices.
+     * @param uSize    The horizontal (u) texture size of the quad, in pixels.
+     * @param vSize    The vertical (v) texture size of the quad, in pixels.
+     */
+    @JvmStatic
+    fun renderTexturedQuads(
+        poseStack: PoseStack,
+        buffer: VertexConsumer,
+        sprite: TextureAtlasSprite,
+        packedLight: Int,
+        packedOverlay: Int,
+        vertices: Array<FloatArray>,
+        uSize: Float,
+        vSize: Float,
+        normalX: Float,
+        normalY: Float,
+        normalZ: Float,
+        doShade: Boolean
+    ) {
+        for (v in vertices) {
+            renderTexturedVertex(
+                poseStack,
+                buffer,
+                packedLight,
+                packedOverlay,
+                v[0],
+                v[1],
+                v[2],
+                sprite.getU(v[3] * uSize),
+                sprite.getV(v[4] * vSize),
+                v[5] * normalX,
+                v[5] * normalY,
+                v[5] * normalZ,
+                doShade
+            )
         }
+    }
 
-        fun renderFaces(
-            bufferSource: MultiBufferSource.BufferSource,
-            poseStack: PoseStack,
-            bb: AABB,
-            colorRed: Float,
-            colorGreen: Float,
-            colorBlue: Float,
-            alpha: Float
-        ) {
-            val renderType: RenderType = LineRenderType.translucentLineRenderType(1f)
-            val builder: VertexConsumer = bufferSource.getBuffer(renderType)
-            val pose = poseStack.last()
+    @JvmStatic
+    fun renderTexturedVertex(
+        poseStack: PoseStack,
+        buffer: VertexConsumer,
+        packedLight: Int,
+        packedOverlay: Int,
+        x: Float,
+        y: Float,
+        z: Float,
+        u: Float,
+        v: Float,
+        normalX: Float,
+        normalY: Float,
+        normalZ: Float
+    ) {
+        renderTexturedVertex(
+            poseStack,
+            buffer,
+            packedLight,
+            packedOverlay,
+            x,
+            y,
+            z,
+            u,
+            v,
+            normalX,
+            normalY,
+            normalZ,
+            true
+        )
+    }
 
-            builder.addVertex(pose, bb.minX.toFloat(), bb.minY.toFloat(), bb.minZ.toFloat())
-                .setColor(colorRed, colorGreen, colorBlue, alpha)
-                .setNormal(pose, 0.0f, -1.0f, 0.0f)
+    /**
+     * Renders a single vertex as part of a quad.
+     *
+     *  * (x, y, z) describe the position of the vertex.
+     *  * (u, v) describe the texture coordinates, typically will be a number of pixels (i.e. 16x something)
+     *  * (normalX, normalY, normalZ) describe the normal vector to the quad.
+     *
+     */
+    @JvmStatic
+    fun renderTexturedVertex(
+        poseStack: PoseStack,
+        buffer: VertexConsumer,
+        packedLight: Int,
+        packedOverlay: Int,
+        x: Float,
+        y: Float,
+        z: Float,
+        u: Float,
+        v: Float,
+        normalX: Float,
+        normalY: Float,
+        normalZ: Float,
+        doShade: Boolean
+    ) {
+        val shade = if (doShade) getShade(normalX, normalY, normalZ) else 1f
+        buffer.addVertex(poseStack.last().pose(), x, y, z)
+            .setColor(shade, shade, shade, 1f)
+            .setUv(u, v)
+            .setLight(packedLight)
+            .setOverlay(packedOverlay)
+            .setNormal(poseStack.last(), normalX, normalY, normalZ)
+    }
 
-            builder.addVertex(pose, bb.maxX.toFloat(), bb.minY.toFloat(), bb.minZ.toFloat())
-                .setColor(colorRed, colorGreen, colorBlue, alpha)
-                .setNormal(pose, 0.0f, -1.0f, 0.0f)
+    /**
+     * Converts a potentially angled normal into the 'nearest' directional step. Could potentially be reimplemented as an inverse lerp.
+     */
+    @JvmStatic
+    fun getShade(normalX: Float, normalY: Float, normalZ: Float): Float {
+        return getShadeForStep(Math.round(normalX), Math.round(normalY), Math.round(normalZ))
+    }
 
-            builder.addVertex(pose, bb.maxX.toFloat(), bb.minY.toFloat(), bb.maxZ.toFloat())
-                .setColor(colorRed, colorGreen, colorBlue, alpha)
-                .setNormal(pose, 0.0f, -1.0f, 0.0f)
+    /**
+     * Returns the static diffuse shade by MC for each directional face. The color value of a vertex should be multiplied by this.
+     * Reimplements [net.minecraft.client.multiplayer.ClientLevel.getShade]
+     */
+    @JvmStatic
+    fun getShadeForStep(normalX: Int, normalY: Int, normalZ: Int): Float {
+        if (normalY == 1) return 1f
+        if (normalY == -1) return 0.5f
+        if (normalZ != 0) return 0.8f
+        if (normalX != 0) return 0.6f
+        return 1f
+    }
 
-            builder.addVertex(pose, bb.minX.toFloat(), bb.minY.toFloat(), bb.maxZ.toFloat())
-                .setColor(colorRed, colorGreen, colorBlue, alpha)
-                .setNormal(pose, 0.0f, -1.0f, 0.0f)
+    /**
+     * <pre>
+     * O------P.  ^ y
+     * |`.    | `.|
+     * |  `O--+---P--> x
+     * |   |  |   |
+     * O---+--P.  |
+     * `. |    `.|
+     * `O------P
+    </pre> *
+     *
+     * @return A collection of vertices for two parallel faces of a cube, facing outwards, defined by (minX, minY, minZ) x (maxX, maxY, maxZ). Or the faces O and P in the above art
+     */
+    @JvmStatic
+    fun getXVertices(minX: Float, minY: Float, minZ: Float, maxX: Float, maxY: Float, maxZ: Float): Array<FloatArray> {
+        return arrayOf(
+            floatArrayOf(minX, minY, minZ, 0f, 1f, 1f),  // +X
+            floatArrayOf(minX, minY, maxZ, 1f, 1f, 1f),
+            floatArrayOf(minX, maxY, maxZ, 1f, 0f, 1f),
+            floatArrayOf(minX, maxY, minZ, 0f, 0f, 1f),
 
-            builder.addVertex(pose, bb.minX.toFloat(), bb.maxY.toFloat(), bb.minZ.toFloat())
-                .setColor(colorRed, colorGreen, colorBlue, alpha)
-                .setNormal(pose, 0.0f, 1.0f, 0.0f)
+            floatArrayOf(maxX, minY, maxZ, 1f, 0f, -1f),  // -X
+            floatArrayOf(maxX, minY, minZ, 0f, 0f, -1f),
+            floatArrayOf(maxX, maxY, minZ, 0f, 1f, -1f),
+            floatArrayOf(maxX, maxY, maxZ, 1f, 1f, -1f)
+        )
+    }
 
-            builder.addVertex(pose, bb.maxX.toFloat(), bb.maxY.toFloat(), bb.minZ.toFloat())
-                .setColor(colorRed, colorGreen, colorBlue, alpha)
-                .setNormal(pose, 0.0f, 1.0f, 0.0f)
+    /**
+     * <pre>
+     * O------O.  ^ y
+     * |`.    | `.|
+     * |  `O--+---O--> x
+     * |   |  |   |
+     * P---+--P.  |
+     * `. |    `.|
+     * `P------P
+    </pre> *
+     *
+     * @return A collection of vertices for two parallel faces of a cube, facing outwards, defined by (minX, minY, minZ) x (maxX, maxY, maxZ). Or the faces O and P in the above art
+     */
+    @JvmStatic
+    fun getYVertices(minX: Float, minY: Float, minZ: Float, maxX: Float, maxY: Float, maxZ: Float): Array<FloatArray> {
+        return arrayOf(
+            floatArrayOf(minX, maxY, minZ, 0f, 1f, 1f),  // +Y
+            floatArrayOf(minX, maxY, maxZ, 1f, 1f, 1f),
+            floatArrayOf(maxX, maxY, maxZ, 1f, 0f, 1f),
+            floatArrayOf(maxX, maxY, minZ, 0f, 0f, 1f),
 
-            builder.addVertex(pose, bb.maxX.toFloat(), bb.maxY.toFloat(), bb.maxZ.toFloat())
-                .setColor(colorRed, colorGreen, colorBlue, alpha)
-                .setNormal(pose, 0.0f, 1.0f, 0.0f)
+            floatArrayOf(minX, minY, maxZ, 1f, 0f, -1f),  // -Y
+            floatArrayOf(minX, minY, minZ, 0f, 0f, -1f),
+            floatArrayOf(maxX, minY, minZ, 0f, 1f, -1f),
+            floatArrayOf(maxX, minY, maxZ, 1f, 1f, -1f)
+        )
+    }
 
-            builder.addVertex(pose, bb.minX.toFloat(), bb.maxY.toFloat(), bb.maxZ.toFloat())
-                .setColor(colorRed, colorGreen, colorBlue, alpha)
-                .setNormal(pose, 0.0f, 1.0f, 0.0f)
+    /**
+     * <pre>
+     * O------O.  ^ y
+     * |`.    | `.|
+     * |  `P--+---P--> x
+     * |   |  |   |
+     * O---+--O.  |
+     * `. |    `.|
+     * `P------P
+    </pre> *
+     *
+     * @return A collection of vertices for two parallel faces of a cube, facing outwards, defined by (minX, minY, minZ) x (maxX, maxY, maxZ). Or the faces O and P in the above art
+     */
+    @JvmStatic
+    fun getZVertices(minX: Float, minY: Float, minZ: Float, maxX: Float, maxY: Float, maxZ: Float): Array<FloatArray> {
+        return arrayOf(
+            floatArrayOf(maxX, minY, minZ, 0f, 1f, 1f),  // +Z
+            floatArrayOf(minX, minY, minZ, 1f, 1f, 1f),
+            floatArrayOf(minX, maxY, minZ, 1f, 0f, 1f),
+            floatArrayOf(maxX, maxY, minZ, 0f, 0f, 1f),
 
-            builder.addVertex(pose, bb.minX.toFloat(), bb.minY.toFloat(), bb.minZ.toFloat())
-                .setColor(colorRed, colorGreen, colorBlue, alpha)
-                .setNormal(pose, -1.0f, 0.0f, 0.0f)
+            floatArrayOf(minX, minY, maxZ, 1f, 0f, -1f),  // -Z
+            floatArrayOf(maxX, minY, maxZ, 0f, 0f, -1f),
+            floatArrayOf(maxX, maxY, maxZ, 0f, 1f, -1f),
+            floatArrayOf(minX, maxY, maxZ, 1f, 1f, -1f)
+        )
+    }
 
-            builder.addVertex(pose, bb.minX.toFloat(), bb.maxY.toFloat(), bb.minZ.toFloat())
-                .setColor(colorRed, colorGreen, colorBlue, alpha)
-                .setNormal(pose, -1.0f, 0.0f, 0.0f)
+    /**
+     * <pre>
+     * P------P.  ^ y
+     * |`.    | `.|
+     * |  `+--+---+--> x
+     * |   |  |   |
+     * +---+--+.  |
+     * `. |    `.|
+     * `P------P
+    </pre> *
+     *
+     * @return A collection of vertices for both sides of one of the diagonal faces of a cube defined by (minX, minY, minZ) x (maxX, maxY, maxZ). Or both sides of the face defined by vertices P in the above art.
+     */
+    @JvmStatic
+    fun getDiagonalPlaneVertices(
+        x1: Float,
+        y1: Float,
+        z1: Float,
+        x2: Float,
+        y2: Float,
+        z2: Float,
+        u1: Float,
+        v1: Float,
+        u2: Float,
+        v2: Float
+    ): Array<FloatArray> {
+        return arrayOf(
+            floatArrayOf(x1, y1, z1, u1, v1),
+            floatArrayOf(x2, y1, z1, u2, v1),
+            floatArrayOf(x2, y2, z2, u2, v2),
+            floatArrayOf(x1, y2, z2, u1, v2),
 
-            builder.addVertex(pose, bb.minX.toFloat(), bb.maxY.toFloat(), bb.maxZ.toFloat())
-                .setColor(colorRed, colorGreen, colorBlue, alpha)
-                .setNormal(pose, -1.0f, 0.0f, 0.0f)
+            floatArrayOf(x2, y1, z1, u2, v1),
+            floatArrayOf(x1, y1, z1, u1, v1),
+            floatArrayOf(x1, y2, z2, u1, v2),
+            floatArrayOf(x2, y2, z2, u2, v2)
+        )
+    }
 
-            builder.addVertex(pose, bb.minX.toFloat(), bb.minY.toFloat(), bb.maxZ.toFloat())
-                .setColor(colorRed, colorGreen, colorBlue, alpha)
-                .setNormal(pose, -1.0f, 0.0f, 0.0f)
+    /**
+     * <pre>
+     * Q------Q.  ^ y
+     * |`.    | `.|
+     * |  `Q--+---Q--> x = maxY
+     * |   |  |   |
+     * P---+--P.  |
+     * `. |    `.|
+     * `P------P = minY
+    </pre> *
+     *
+     * @return A collection of vertices for the positive and negative X outward faces of the above trapezoidal cuboid, defined by the plane P, and the plane Q, minY, and maxY.
+     */
+    @JvmStatic
+    fun getTrapezoidalCuboidXVertices(
+        pMinX: Float,
+        pMaxX: Float,
+        pMinZ: Float,
+        pMaxZ: Float,
+        qMinX: Float,
+        qMaxX: Float,
+        qMinZ: Float,
+        qMaxZ: Float,
+        minY: Float,
+        maxY: Float
+    ): Array<FloatArray> {
+        return arrayOf(
+            floatArrayOf(pMinX, minY, pMinZ, 0f, 1f, 1f),  // +X
+            floatArrayOf(pMinX, minY, pMaxZ, 1f, 1f, 1f),
+            floatArrayOf(qMinX, maxY, qMaxZ, 1f, 0f, 1f),
+            floatArrayOf(qMinX, maxY, qMinZ, 0f, 0f, 1f),
 
-            builder.addVertex(pose, bb.maxX.toFloat(), bb.minY.toFloat(), bb.minZ.toFloat())
-                .setColor(colorRed, colorGreen, colorBlue, alpha)
-                .setNormal(pose, 1.0f, 0.0f, 0.0f)
+            floatArrayOf(pMaxX, minY, pMaxZ, 1f, 0f, -1f),  // -X
+            floatArrayOf(pMaxX, minY, pMinZ, 0f, 0f, -1f),
+            floatArrayOf(qMaxX, maxY, qMinZ, 0f, 1f, -1f),
+            floatArrayOf(qMaxX, maxY, qMaxZ, 1f, 1f, -1f),
+        )
+    }
 
-            builder.addVertex(pose, bb.maxX.toFloat(), bb.maxY.toFloat(), bb.minZ.toFloat())
-                .setColor(colorRed, colorGreen, colorBlue, alpha)
-                .setNormal(pose, 1.0f, 0.0f, 0.0f)
+    /**
+     * <pre>
+     * Q------Q.  ^ y
+     * |`.    | `.|
+     * |  `Q--+---Q--> x = maxY
+     * |   |  |   |
+     * P---+--P.  |
+     * `. |    `.|
+     * `P------P = minY
+    </pre> *
+     *
+     * @return A collection of vertices for the positive and negative Y outward faces of the above trapezoidal cuboid, defined by the plane P, and the plane Q, minY, and maxY.
+     */
+    @JvmStatic
+    fun getTrapezoidalCuboidYVertices(
+        pMinX: Float,
+        pMaxX: Float,
+        pMinZ: Float,
+        pMaxZ: Float,
+        qMinX: Float,
+        qMaxX: Float,
+        qMinZ: Float,
+        qMaxZ: Float,
+        minY: Float,
+        maxY: Float
+    ): Array<FloatArray> {
+        return arrayOf(
+            floatArrayOf(qMinX, maxY, qMinZ, 0f, 1f, 1f),  // +Y
+            floatArrayOf(qMinX, maxY, qMaxZ, 1f, 1f, 1f),
+            floatArrayOf(qMaxX, maxY, qMaxZ, 1f, 0f, 1f),
+            floatArrayOf(qMaxX, maxY, qMinZ, 0f, 0f, 1f),
 
-            builder.addVertex(pose, bb.maxX.toFloat(), bb.maxY.toFloat(), bb.maxZ.toFloat())
-                .setColor(colorRed, colorGreen, colorBlue, alpha)
-                .setNormal(pose, 1.0f, 0.0f, 0.0f)
+            floatArrayOf(pMinX, minY, pMaxZ, 1f, 0f, -1f),  // -Y
+            floatArrayOf(pMinX, minY, pMinZ, 0f, 0f, -1f),
+            floatArrayOf(pMaxX, minY, pMinZ, 0f, 1f, -1f),
+            floatArrayOf(pMaxX, minY, pMaxZ, 1f, 1f, -1f),
+        )
+    }
 
-            builder.addVertex(pose, bb.maxX.toFloat(), bb.minY.toFloat(), bb.maxZ.toFloat())
-                .setColor(colorRed, colorGreen, colorBlue, alpha)
-                .setNormal(pose, 1.0f, 0.0f, 0.0f)
+    /**
+     * <pre>
+     * Q------Q.  ^ y
+     * |`.    | `.|
+     * |  `Q--+---Q--> x = maxY
+     * |   |  |   |
+     * P---+--P.  |
+     * `. |    `.|
+     * `P------P = minY
+    </pre> *
+     *
+     * @return A collection of vertices for the positive and negative X outward faces of the above trapezoidal cuboid, defined by the plane P, and the plane Q, minY, and maxY.
+     */
+    @JvmStatic
+    fun getTrapezoidalCuboidZVertices(
+        pMinX: Float,
+        pMaxX: Float,
+        pMinZ: Float,
+        pMaxZ: Float,
+        qMinX: Float,
+        qMaxX: Float,
+        qMinZ: Float,
+        qMaxZ: Float,
+        minY: Float,
+        maxY: Float
+    ): Array<FloatArray> {
+        return arrayOf(
+            floatArrayOf(pMaxX, minY, pMinZ, 0f, 1f, 1f),  // +Z
+            floatArrayOf(pMinX, minY, pMinZ, 1f, 1f, 1f),
+            floatArrayOf(qMinX, maxY, qMinZ, 1f, 0f, 1f),
+            floatArrayOf(qMaxX, maxY, qMinZ, 0f, 0f, 1f),
 
-            builder.addVertex(pose, bb.minX.toFloat(), bb.minY.toFloat(), bb.minZ.toFloat())
-                .setColor(colorRed, colorGreen, colorBlue, alpha)
-                .setNormal(pose, 0.0f, 0.0f, -1.0f)
+            floatArrayOf(pMinX, minY, pMaxZ, 1f, 0f, -1f),  // -Z
+            floatArrayOf(pMaxX, minY, pMaxZ, 0f, 0f, -1f),
+            floatArrayOf(qMaxX, maxY, qMaxZ, 0f, 1f, -1f),
+            floatArrayOf(qMinX, maxY, qMaxZ, 1f, 1f, -1f)
+        )
+    }
 
-            builder.addVertex(pose, bb.maxX.toFloat(), bb.minY.toFloat(), bb.minZ.toFloat())
-                .setColor(colorRed, colorGreen, colorBlue, alpha)
-                .setNormal(pose, 0.0f, 0.0f, -1.0f)
+    @JvmStatic
+    fun setShaderColor(packedColor: Int) {
+        val color = Color(packedColor)
 
-            builder.addVertex(pose, bb.maxX.toFloat(), bb.maxY.toFloat(), bb.minZ.toFloat())
-                .setColor(colorRed, colorGreen, colorBlue, alpha)
-                .setNormal(pose, 0.0f, 0.0f, -1.0f)
+        RenderSystem.setShaderColor(color.red, color.green, color.blue, color.alpha)
+    }
 
-            builder.addVertex(pose, bb.minX.toFloat(), bb.maxY.toFloat(), bb.minZ.toFloat())
-                .setColor(colorRed, colorGreen, colorBlue, alpha)
-                .setNormal(pose, 0.0f, 0.0f, -1.0f)
-
-            builder.addVertex(pose, bb.minX.toFloat(), bb.minY.toFloat(), bb.maxZ.toFloat())
-                .setColor(colorRed, colorGreen, colorBlue, alpha)
-                .setNormal(pose, 0.0f, 0.0f, 1.0f)
-
-            builder.addVertex(pose, bb.maxX.toFloat(), bb.minY.toFloat(), bb.maxZ.toFloat())
-                .setColor(colorRed, colorGreen, colorBlue, alpha)
-                .setNormal(pose, 0.0f, 0.0f, 1.0f)
-
-            builder.addVertex(pose, bb.maxX.toFloat(), bb.maxY.toFloat(), bb.maxZ.toFloat())
-                .setColor(colorRed, colorGreen, colorBlue, alpha)
-                .setNormal(pose, 0.0f, 0.0f, 1.0f)
-
-            builder.addVertex(pose, bb.minX.toFloat(), bb.maxY.toFloat(), bb.maxZ.toFloat())
-                .setColor(colorRed, colorGreen, colorBlue, alpha)
-                .setNormal(pose, 0.0f, 0.0f, 1.0f)
-
-            bufferSource.endBatch(renderType)
-        }
-
-        fun renderOutline(
-            lineWidth: Float,
-            bufferSource: MultiBufferSource.BufferSource,
-            poseStack: PoseStack,
-            bb: AABB,
-            colorRed: Float,
-            colorGreen: Float,
-            colorBlue: Float,
-            alpha: Float
-        ) {
-            val renderType: RenderType = LineRenderType.lineRenderType(lineWidth)
-            val builder: VertexConsumer = bufferSource.getBuffer(renderType)
-            val pose = poseStack.last()
-            builder.addVertex(pose, bb.minX.toFloat(), bb.minY.toFloat(), bb.minZ.toFloat())
-                .setColor(colorRed, colorGreen, colorBlue, alpha)
-                .setNormal(pose, 1.0f, 0.0f, 0.0f)
-
-            builder.addVertex(pose, bb.maxX.toFloat(), bb.minY.toFloat(), bb.minZ.toFloat())
-                .setColor(colorRed, colorGreen, colorBlue, alpha)
-                .setNormal(pose, 1.0f, 0.0f, 0.0f)
-
-            builder.addVertex(pose, bb.minX.toFloat(), bb.minY.toFloat(), bb.minZ.toFloat())
-                .setColor(colorRed, colorGreen, colorBlue, alpha)
-                .setNormal(pose, 0.0f, 1.0f, 0.0f)
-
-            builder.addVertex(pose, bb.minX.toFloat(), bb.maxY.toFloat(), bb.minZ.toFloat())
-                .setColor(colorRed, colorGreen, colorBlue, alpha)
-                .setNormal(pose, 0.0f, 1.0f, 0.0f)
-
-            builder.addVertex(pose, bb.minX.toFloat(), bb.minY.toFloat(), bb.minZ.toFloat())
-                .setColor(colorRed, colorGreen, colorBlue, alpha)
-                .setNormal(pose, 0.0f, 0.0f, 1.0f)
-            builder.addVertex(pose, bb.minX.toFloat(), bb.minY.toFloat(), bb.maxZ.toFloat())
-                .setColor(colorRed, colorGreen, colorBlue, alpha)
-                .setNormal(pose, 0.0f, 0.0f, 1.0f)
-            builder.addVertex(pose, bb.maxX.toFloat(), bb.minY.toFloat(), bb.minZ.toFloat())
-                .setColor(colorRed, colorGreen, colorBlue, alpha)
-                .setNormal(pose, 0.0f, 1.0f, 0.0f)
-            builder.addVertex(pose, bb.maxX.toFloat(), bb.maxY.toFloat(), bb.minZ.toFloat())
-                .setColor(colorRed, colorGreen, colorBlue, alpha)
-                .setNormal(pose, 0.0f, 1.0f, 0.0f)
-            builder.addVertex(pose, bb.maxX.toFloat(), bb.maxY.toFloat(), bb.minZ.toFloat())
-                .setColor(colorRed, colorGreen, colorBlue, alpha)
-                .setNormal(pose, -1.0f, 0.0f, 0.0f)
-            builder.addVertex(pose, bb.minX.toFloat(), bb.maxY.toFloat(), bb.minZ.toFloat())
-                .setColor(colorRed, colorGreen, colorBlue, alpha)
-                .setNormal(pose, -1.0f, 0.0f, 0.0f)
-            builder.addVertex(pose, bb.minX.toFloat(), bb.maxY.toFloat(), bb.minZ.toFloat())
-                .setColor(colorRed, colorGreen, colorBlue, alpha)
-                .setNormal(pose, 0.0f, 0.0f, 1.0f)
-            builder.addVertex(pose, bb.minX.toFloat(), bb.maxY.toFloat(), bb.maxZ.toFloat())
-                .setColor(colorRed, colorGreen, colorBlue, alpha)
-                .setNormal(pose, 0.0f, 0.0f, 1.0f)
-            builder.addVertex(pose, bb.minX.toFloat(), bb.maxY.toFloat(), bb.maxZ.toFloat())
-                .setColor(colorRed, colorGreen, colorBlue, alpha)
-                .setNormal(pose, 0.0f, -1.0f, 0.0f)
-            builder.addVertex(pose, bb.minX.toFloat(), bb.minY.toFloat(), bb.maxZ.toFloat())
-                .setColor(colorRed, colorGreen, colorBlue, alpha)
-                .setNormal(pose, 0.0f, -1.0f, 0.0f)
-            builder.addVertex(pose, bb.minX.toFloat(), bb.minY.toFloat(), bb.maxZ.toFloat())
-                .setColor(colorRed, colorGreen, colorBlue, alpha)
-                .setNormal(pose, 1.0f, 0.0f, 0.0f)
-            builder.addVertex(pose, bb.maxX.toFloat(), bb.minY.toFloat(), bb.maxZ.toFloat())
-                .setColor(colorRed, colorGreen, colorBlue, alpha)
-                .setNormal(pose, 1.0f, 0.0f, 0.0f)
-            builder.addVertex(pose, bb.maxX.toFloat(), bb.minY.toFloat(), bb.maxZ.toFloat())
-                .setColor(colorRed, colorGreen, colorBlue, alpha)
-                .setNormal(pose, 0.0f, 0.0f, -1.0f)
-            builder.addVertex(pose, bb.maxX.toFloat(), bb.minY.toFloat(), bb.minZ.toFloat())
-                .setColor(colorRed, colorGreen, colorBlue, alpha)
-                .setNormal(pose, 0.0f, 0.0f, -1.0f)
-            builder.addVertex(pose, bb.minX.toFloat(), bb.maxY.toFloat(), bb.maxZ.toFloat())
-                .setColor(colorRed, colorGreen, colorBlue, alpha)
-                .setNormal(pose, 1.0f, 0.0f, 0.0f)
-            builder.addVertex(pose, bb.maxX.toFloat(), bb.maxY.toFloat(), bb.maxZ.toFloat())
-                .setColor(colorRed, colorGreen, colorBlue, alpha)
-                .setNormal(pose, 1.0f, 0.0f, 0.0f)
-            builder.addVertex(pose, bb.maxX.toFloat(), bb.minY.toFloat(), bb.maxZ.toFloat())
-                .setColor(colorRed, colorGreen, colorBlue, alpha)
-                .setNormal(pose, 0.0f, 1.0f, 0.0f)
-            builder.addVertex(pose, bb.maxX.toFloat(), bb.maxY.toFloat(), bb.maxZ.toFloat())
-                .setColor(colorRed, colorGreen, colorBlue, alpha)
-                .setNormal(pose, 0.0f, 1.0f, 0.0f)
-            builder.addVertex(pose, bb.maxX.toFloat(), bb.maxY.toFloat(), bb.minZ.toFloat())
-                .setColor(colorRed, colorGreen, colorBlue, alpha)
-                .setNormal(pose, 0.0f, 0.0f, 1.0f)
-            builder.addVertex(pose, bb.maxX.toFloat(), bb.maxY.toFloat(), bb.maxZ.toFloat())
-                .setColor(colorRed, colorGreen, colorBlue, alpha)
-                .setNormal(pose, 0.0f, 0.0f, 1.0f)
-            bufferSource.endBatch(renderType)
-        }
-
-
-        /**
-         * Builds a solid cuboid.
-         * Expects VertexFormat of POSITION_COLOR.
-         *
-         * @param builder The [VertexConsumer]
-         * @param c       The [Cuboid6]
-         * @param r       Red color.
-         * @param g       Green color.
-         * @param b       Blue Color.
-         * @param a       Alpha channel.
-         */
-        fun bufferCuboidSolid(
-            builder: VertexConsumer,
-            poseStack: PoseStack,
-            c: Cuboid6,
-            r: Float,
-            g: Float,
-            b: Float,
-            a: Float
-        ) {
-            val pose = poseStack.last()
-
-            builder.addVertex(pose, c.min.x.toFloat(), c.max.y.toFloat(), c.min.z.toFloat()).setColor(r, g, b, a)
-            builder.addVertex(pose, c.max.x.toFloat(), c.max.y.toFloat(), c.min.z.toFloat()).setColor(r, g, b, a)
-            builder.addVertex(pose, c.max.x.toFloat(), c.min.y.toFloat(), c.min.z.toFloat()).setColor(r, g, b, a)
-            builder.addVertex(pose, c.min.x.toFloat(), c.min.y.toFloat(), c.min.z.toFloat()).setColor(r, g, b, a)
-            builder.addVertex(pose, c.min.x.toFloat(), c.min.y.toFloat(), c.max.z.toFloat()).setColor(r, g, b, a)
-            builder.addVertex(pose, c.max.x.toFloat(), c.min.y.toFloat(), c.max.z.toFloat()).setColor(r, g, b, a)
-            builder.addVertex(pose, c.max.x.toFloat(), c.max.y.toFloat(), c.max.z.toFloat()).setColor(r, g, b, a)
-            builder.addVertex(pose, c.min.x.toFloat(), c.max.y.toFloat(), c.max.z.toFloat()).setColor(r, g, b, a)
-            builder.addVertex(pose, c.min.x.toFloat(), c.min.y.toFloat(), c.min.z.toFloat()).setColor(r, g, b, a)
-            builder.addVertex(pose, c.max.x.toFloat(), c.min.y.toFloat(), c.min.z.toFloat()).setColor(r, g, b, a)
-            builder.addVertex(pose, c.max.x.toFloat(), c.min.y.toFloat(), c.max.z.toFloat()).setColor(r, g, b, a)
-            builder.addVertex(pose, c.min.x.toFloat(), c.min.y.toFloat(), c.max.z.toFloat()).setColor(r, g, b, a)
-            builder.addVertex(pose, c.min.x.toFloat(), c.max.y.toFloat(), c.max.z.toFloat()).setColor(r, g, b, a)
-            builder.addVertex(pose, c.max.x.toFloat(), c.max.y.toFloat(), c.max.z.toFloat()).setColor(r, g, b, a)
-            builder.addVertex(pose, c.max.x.toFloat(), c.max.y.toFloat(), c.min.z.toFloat()).setColor(r, g, b, a)
-            builder.addVertex(pose, c.min.x.toFloat(), c.max.y.toFloat(), c.min.z.toFloat()).setColor(r, g, b, a)
-            builder.addVertex(pose, c.min.x.toFloat(), c.min.y.toFloat(), c.max.z.toFloat()).setColor(r, g, b, a)
-            builder.addVertex(pose, c.min.x.toFloat(), c.max.y.toFloat(), c.max.z.toFloat()).setColor(r, g, b, a)
-            builder.addVertex(pose, c.min.x.toFloat(), c.max.y.toFloat(), c.min.z.toFloat()).setColor(r, g, b, a)
-            builder.addVertex(pose, c.min.x.toFloat(), c.min.y.toFloat(), c.min.z.toFloat()).setColor(r, g, b, a)
-            builder.addVertex(pose, c.max.x.toFloat(), c.min.y.toFloat(), c.min.z.toFloat()).setColor(r, g, b, a)
-            builder.addVertex(pose, c.max.x.toFloat(), c.max.y.toFloat(), c.min.z.toFloat()).setColor(r, g, b, a)
-            builder.addVertex(pose, c.max.x.toFloat(), c.max.y.toFloat(), c.max.z.toFloat()).setColor(r, g, b, a)
-            builder.addVertex(pose, c.max.x.toFloat(), c.min.y.toFloat(), c.max.z.toFloat()).setColor(r, g, b, a)
-        }
-
-        fun bufferCuboidOutline(
-            builder: VertexConsumer,
-            poseStack: PoseStack,
-            c: Cuboid6,
-            r: Float,
-            g: Float,
-            b: Float,
-            a: Float
-        ) {
-            bufferLinePair(builder, poseStack, c.min.x, c.min.y, c.min.z, c.max.x, c.min.y, c.min.z, r, g, b, a)
-            bufferLinePair(builder, poseStack, c.max.x, c.min.y, c.min.z, c.max.x, c.min.y, c.max.z, r, g, b, a)
-            bufferLinePair(builder, poseStack, c.max.x, c.min.y, c.max.z, c.min.x, c.min.y, c.max.z, r, g, b, a)
-            bufferLinePair(builder, poseStack, c.min.x, c.min.y, c.max.z, c.min.x, c.min.y, c.min.z, r, g, b, a)
-            bufferLinePair(builder, poseStack, c.min.x, c.max.y, c.min.z, c.max.x, c.max.y, c.min.z, r, g, b, a)
-            bufferLinePair(builder, poseStack, c.max.x, c.max.y, c.min.z, c.max.x, c.max.y, c.max.z, r, g, b, a)
-            bufferLinePair(builder, poseStack, c.max.x, c.max.y, c.max.z, c.min.x, c.max.y, c.max.z, r, g, b, a)
-            bufferLinePair(builder, poseStack, c.min.x, c.max.y, c.max.z, c.min.x, c.max.y, c.min.z, r, g, b, a)
-            bufferLinePair(builder, poseStack, c.min.x, c.min.y, c.min.z, c.min.x, c.max.y, c.min.z, r, g, b, a)
-            bufferLinePair(builder, poseStack, c.max.x, c.min.y, c.min.z, c.max.x, c.max.y, c.min.z, r, g, b, a)
-            bufferLinePair(builder, poseStack, c.max.x, c.min.y, c.max.z, c.max.x, c.max.y, c.max.z, r, g, b, a)
-            bufferLinePair(builder, poseStack, c.min.x, c.min.y, c.max.z, c.min.x, c.max.y, c.max.z, r, g, b, a)
-        }
-
-        fun bufferShapeOutline(
-            builder: VertexConsumer,
-            poseStack: PoseStack?,
-            shape: VoxelShape,
-            r: Float,
-            g: Float,
-            b: Float,
-            a: Float
-        ) {
-            shape.forAllEdges { x1: Double, y1: Double, z1: Double, x2: Double, y2: Double, z2: Double ->
-                bufferLinePair(
-                    builder, poseStack, x1, y1, z1, x2, y2, z2, r, g, b, a
-                )
-            }
-        }
-
-        private fun bufferLinePair(
-            builder: VertexConsumer,
-            poseStack: PoseStack?,
-            x1: Double,
-            y1: Double,
-            z1: Double,
-            x2: Double,
-            y2: Double,
-            z2: Double,
-            r: Float,
-            g: Float,
-            b: Float,
-            a: Float
-        ) {
-            val v1: Vector3 = vectors[0].set(x1, y1, z1).subtract(x2, y2, z2)
-            val d = v1.mag()
-            v1.divide(d)
-            if (poseStack == null) {
-                builder.addVertex(x1.toFloat(), y1.toFloat(), z1.toFloat())
-                    .setColor(r, g, b, a)
-                    .setNormal(v1.x.toFloat(), v1.y.toFloat(), v1.z.toFloat())
-                    builder.addVertex(x2.toFloat(), y2.toFloat(), z2.toFloat())
-                    .setColor(r, g, b, a)
-                    .setNormal(v1.x.toFloat(), v1.y.toFloat(), v1.z.toFloat())
-                } else {
-                val pose = poseStack.last()
-                builder.addVertex(pose, x1.toFloat(), y1.toFloat(), z1.toFloat())
-                    .setColor(r, g, b, a)
-                    .setNormal(v1.x.toFloat(), v1.y.toFloat(), v1.z.toFloat())
-                    builder.addVertex(pose, x2.toFloat(), y2.toFloat(), z2.toFloat())
-                    .setColor(r, g, b, a)
-                    .setNormal(v1.x.toFloat(), v1.y.toFloat(), v1.z.toFloat())
-                }
-        }
+    @JvmStatic
+    fun setShaderColor(graphics: GuiGraphics, packedColor: Int) {
+        graphics.setColor(Color(packedColor))
     }
 }

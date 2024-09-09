@@ -1,9 +1,11 @@
+A mod that tries to combine multiple utility mods into a single one, while adding additional functionality to those utilities aswell
+
+<!-- modrinth_exclude.start -->
 # Why the name?
 
 I don't know. Just wanted to create a mod to consolidate different mods. Why the duck do we need 20+ mods with each having only 1 item???? Thats stupid.
 
 # What is it?
-
 It currently contains only 1 item, forked from [Mrbysco](https://github.com/Mrbysco/Measurements) but converted to kotlin, uses NeoForge instead of Forge + some additions I think it was missing.
 
 - It renders a full wireframe instead of just the edges.
@@ -21,3 +23,4 @@ It currently contains only 1 item, forked from [Mrbysco](https://github.com/Mrby
 - BIG Torch that prevents mob spawning in a bigger radius
 - Small Torch that prevents mob spawning in a small radius
 - Trash Cans
+<!-- modrinth_exclude.end -->
