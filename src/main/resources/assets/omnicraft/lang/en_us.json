@@ -11,5 +11,8 @@
   "text.autoconfig.omnicraft.option.client.lineWidthMax": "Line Width Max",
 
   "block.omnicraft.mega_torch": "Mega Torch",
-  "block.omnicraft.mega_torch.tooltip": "Prevents natural spawning of hostile monsters in a big radius around the torch"
+  "block.omnicraft.mega_torch.tooltip": "Prevents natural spawning of hostile monsters in a big radius around the torch",
+
+  "item.omnicraft.tiny_coal": "Tiny Coal",
+  "item.omnicraft.tiny_charcoal": "Tiny Charcoal"
 }

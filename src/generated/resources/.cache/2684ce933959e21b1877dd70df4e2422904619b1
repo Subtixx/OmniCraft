@@ -1,0 +1,9 @@
+// 1.21.1	2024-09-09T23:14:02.234583684	vanilla/Recipes
+7c7d009288350fafb00b918da114482a9b72fd1d data/minecraft/advancement/recipes/misc/charcoal.json
+d8959cda117532391e3868b4330861844ceb9222 data/minecraft/advancement/recipes/misc/coal.json
+6a55d01b2b053956c76b06f999d0fdcaebdad31c data/minecraft/recipe/charcoal.json
+a6ba883a4d9de026ba08c36ce0736a9b5d12d2f6 data/minecraft/recipe/coal.json
+92520baf49a630380d3c7d5fb5d5ad4ea799a29a data/omnicraft/advancement/recipes/misc/tiny_charcoal.json
+7a161d91b70323622e29bb7f082968deec654854 data/omnicraft/advancement/recipes/misc/tiny_coal.json
+e8fd842301dee145113fead4dd6fef88507ac02d data/omnicraft/recipe/tiny_charcoal.json
+3940d742adbf7cfd3b0c1549fb5a0500150c292e data/omnicraft/recipe/tiny_coal.json
