@@ -7,17 +7,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
-- Add Trash Can Block
-    - Delete unwanted items 
-- Add Mega Torch Block
-    - Prevents natural spawning of hostile monsters in a big radius around the torch
-- Add Furnace Generator Block
-    - Generate energy from furnaces
-- Add Time Modifier Block
-    - Change time using energy
-- Add Weather Modifier Block
-    - Change weather using energy 
-
 ## [1.0-SNAPSHOT] - 2024-08-30
 
 - Initial NeoForge 1.20.1 release
