@@ -1,4 +1,8 @@
 <div align="center">
+    <img src="art/logo.png" alt="Logo" />
+</div>
+
+<div align="center">
     <img src="https://img.shields.io/github/issues/subtixx/Omnicraft?style=flat-square&logo=github" alt="Issues" />
     <img src="https://img.shields.io/github/issues-pr/subtixx/Omnicraft?style=flat-square&logo=github" alt="PRs" />
     <br>
