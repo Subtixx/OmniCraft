@@ -159,7 +159,7 @@ sourceSets {
 
 dependencies {
     detektPlugins("com.braisgabin.detekt:kotlin-compiler-wrapper:0.0.4")
-    detektPlugins("com.faire:faire-detekt-rules:0.2.4")
+    detektPlugins("com.faire:faire-detekt-rules:0.4.0")
     detektPlugins("io.gitlab.arturbosch.detekt:detekt-formatting:1.23.7")
     detektPlugins("io.gitlab.arturbosch.detekt:detekt-rules-libraries:1.23.7")
 
