@@ -86,7 +86,7 @@ jobs:
           MODRINTH_TOKEN: ${{ secrets.MODRINTH_TOKEN }}
 
       - name: Test with Gradle
-      - run: gradle test
+        run: gradle test
         env:
           MODRINTH_TOKEN: ${{ secrets.MODRINTH_TOKEN }}
 
