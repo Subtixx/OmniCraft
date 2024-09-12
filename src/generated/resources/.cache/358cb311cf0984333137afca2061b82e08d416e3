@@ -1,1 +1,31 @@
-// 1.21.1	2024-09-09T23:14:02.234758394	vanilla/Tags for minecraft:block mod id omnicraft
+// 1.21.1	2024-09-12T13:03:55.674075654	vanilla/Tags for minecraft:block mod id omnicraft
+49f95d28cb642d13365f20dd40d51c5b092e1584 data/c/tags/block/ores.json
+646e0c25fc611a07cedfdcf08c5788150765bffa data/c/tags/block/ores/aluminum.json
+19a0290e54db219108f504076cf2972bfedff185 data/c/tags/block/ores/lead.json
+dd4240428777c6d28445f4c4714d174c110d57c7 data/c/tags/block/ores/nickel.json
+52f12b44f499f04ecfe949d56ea4ec56de8e6f3b data/c/tags/block/ores/platinum.json
+574f15944082facb5384eebf0ab90c326b83771f data/c/tags/block/ores/silver.json
+ba11c2625558f88275b024ef4c5fa13742ade6a8 data/c/tags/block/ores/tin.json
+601cb42c2d644bbedfec6cb865223d5460d92e8a data/c/tags/block/ores/titanium.json
+4b7f2423ba0c64f8504d78e5f74df72facdaa814 data/c/tags/block/ores/uranium.json
+2bb8f3bee7c0b02e530b108ca9798fedefa2c386 data/c/tags/block/ores/zinc.json
+e4388901aa8ccf6a6c3713874eab71519cbe270e data/c/tags/block/ores_in_ground/deepslate.json
+2f84477eed1e7d2faffff8c9a08127dc8cadb766 data/c/tags/block/ores_in_ground/netherrack.json
+a8507eb401968f7a9212dc6786591149290a3ee8 data/c/tags/block/ores_in_ground/stone.json
+5e4de1516b3bd0faae3cae549da86f6ef7dd8712 data/c/tags/block/storage_blocks.json
+baa6ae05317a6703490c41dac900b54cb19d037f data/c/tags/block/storage_blocks/aluminum.json
+cf863908910afafdad2a434f424aaf8eb543b074 data/c/tags/block/storage_blocks/bronze.json
+ecf7697ef594192dd9137a2f3d448775676aa8ed data/c/tags/block/storage_blocks/lead.json
+0dcf799129fd27cc56bcdcb398af4dfc4dcdc003 data/c/tags/block/storage_blocks/nickel.json
+4e7e4c200a1b36a34d77edbd659b388fbe0018a6 data/c/tags/block/storage_blocks/platinum.json
+090dd702b12528c1b5cdcb7c20ccc4fe7407b1ff data/c/tags/block/storage_blocks/silver.json
+f0c08d33d8a40709071254cc2e711870b1aa8131 data/c/tags/block/storage_blocks/tin.json
+c698e4a80b22fa796a72183dc43ad0e72b513666 data/c/tags/block/storage_blocks/titanium.json
+f4a55d0ddddb0fa4d1777f93badd1dc8054eb0e6 data/c/tags/block/storage_blocks/uranium.json
+c2c4430c83ed9814bd836ca75f41af667526608e data/c/tags/block/storage_blocks/zinc.json
+32b13946c4cd1f944b029659ccce5fcb2adad4ff data/omnicraft/tags/block/incorrect_for_bronze_tool.json
+32b13946c4cd1f944b029659ccce5fcb2adad4ff data/omnicraft/tags/block/incorrect_for_copper_tool.json
+32b13946c4cd1f944b029659ccce5fcb2adad4ff data/omnicraft/tags/block/incorrect_for_steel_tool.json
+781d959bb6bbea7b36ae6b2d4a71ced43fd662b9 data/omnicraft/tags/block/needs_bronze_tool.json
+781d959bb6bbea7b36ae6b2d4a71ced43fd662b9 data/omnicraft/tags/block/needs_copper_tool.json
+a249c46329a41538f49a564e1f14338aaf1be5a0 data/omnicraft/tags/block/needs_steel_tool.json

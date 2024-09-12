@@ -3,6 +3,8 @@ package com.github.subtixx.omnicraft.utils
 import com.github.subtixx.omnicraft.mod.ModDataComponentTypes
 import net.minecraft.ChatFormatting
 import net.minecraft.core.Direction
+import net.minecraft.core.HolderLookup
+import net.minecraft.nbt.Tag
 import net.minecraft.network.chat.Component
 import net.minecraft.network.protocol.game.ClientboundSetActionBarTextPacket
 import net.minecraft.server.level.ServerPlayer
@@ -46,6 +48,14 @@ fun ItemStack.cycleCurrentFace(serverPlayer: ServerPlayer) {
             ).withStyle(ChatFormatting.GRAY)
         )
     )
+}
+
+fun ItemStack.encodeStack(ops: HolderLookup.Provider?): Tag? {
+    if (ops == null) {
+        return null
+    }
+
+    return save(ops)
 }
 
 object ItemStackUtils {

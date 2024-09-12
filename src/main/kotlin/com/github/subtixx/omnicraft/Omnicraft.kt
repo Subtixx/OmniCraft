@@ -13,6 +13,7 @@ import net.neoforged.fml.config.ModConfig
 import net.neoforged.neoforge.event.BuildCreativeModeTabContentsEvent
 import org.apache.logging.log4j.LogManager
 import org.apache.logging.log4j.Logger
+import thedarkcolour.kotlinforforge.neoforge.forge.FORGE_BUS
 import thedarkcolour.kotlinforforge.neoforge.forge.MOD_BUS
 
 
@@ -32,6 +33,9 @@ class Omnicraft(modEventBus: IEventBus, modContainer: ModContainer) {
         modEventBus.addListener(ModEvents::gatherData)
         modEventBus.addListener(ModEvents::addCreativeTabs)
 
+        // Tooltip
+        FORGE_BUS.addListener(ModEvents::onTooltip)
+
         ModBlockBehaviors.register()
         ModDataComponentTypes.REGISTRY.register(MOD_BUS)
 
@@ -41,8 +45,13 @@ class Omnicraft(modEventBus: IEventBus, modContainer: ModContainer) {
         ModItems.REGISTRY.register(MOD_BUS)
         ModItemsEnergy.REGISTRY.register(MOD_BUS)
 
+        ModResources.BLOCK_REGISTRY.register(MOD_BUS)
+        ModResources.REGISTRY.register(MOD_BUS)
+
         ModBlockEntities.REGISTRY.register(MOD_BUS)
         ModBlockEntitiesEnergy.REGISTRY.register(MOD_BUS)
+
+        ModMaterials.REGISTRY.register(MOD_BUS)
 
         ModMenus.REGISTRY.register(MOD_BUS)
         ModMenusEnergy.REGISTRY.register(MOD_BUS)

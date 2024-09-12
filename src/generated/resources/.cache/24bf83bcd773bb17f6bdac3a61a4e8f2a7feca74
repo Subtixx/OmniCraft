@@ -1,1 +1,28 @@
-// 1.21.1	2024-09-09T23:14:02.233903542	vanilla/Tags for minecraft:item mod id omnicraft
+// 1.21.1	2024-09-12T13:03:55.673624875	vanilla/Tags for minecraft:item mod id omnicraft
+1b23abb7cbd6ed9d7559064c77edf86f7a218f4b data/c/tags/item/ingots.json
+8ecaf21f6334ab274444fa420902ff9e4346ca0e data/c/tags/item/ingots/aluminum.json
+ed587bc2006355328790c84c68eb8691c1f201c7 data/c/tags/item/ingots/bronze.json
+cc10d3ca97f5858451304231025279b7de078a1c data/c/tags/item/ingots/lead.json
+17f91e330d8db2e43a1e66cf0f6274889669a331 data/c/tags/item/ingots/nickel.json
+877173ebab97655b60598a18055fa537b5310ccb data/c/tags/item/ingots/platinum.json
+9cf3f6de15c57aab4a42e97707455ed4238dc359 data/c/tags/item/ingots/silver.json
+b6d415a9225e6d4210f159c36e2b8a6c289c04b8 data/c/tags/item/ingots/tin.json
+7888d2b73263e04b4686faf18eb2198ca8639967 data/c/tags/item/ingots/titanium.json
+6c73f699e075dae9648fefa4631b495cc9287365 data/c/tags/item/ingots/uranium.json
+6ef5c0508dc8cd8c8c70e74dda19aedf28e4a20a data/c/tags/item/ingots/zinc.json
+abb7f60318b7b3b1c52a7e346db3937abe2428cf data/c/tags/item/nuggets.json
+bda2d77591f1c7fbd73cdd75461cea77a0880cbf data/c/tags/item/nuggets/aluminum.json
+6425496e21266637e3f4761fc7b2c38e53454aa4 data/c/tags/item/nuggets/bronze.json
+4ff0d48bfb6458be7c4f2ad08a405d0774b42608 data/c/tags/item/nuggets/lead.json
+ecefb8d16980ff74b04c9d180590c9d75feb4c45 data/c/tags/item/nuggets/nickel.json
+f425cee41692317d1be90c1689ba4fb40f0c6d56 data/c/tags/item/nuggets/platinum.json
+49a05f9be058955967d12cf60af5e1543151ca33 data/c/tags/item/nuggets/silver.json
+e8f3870d09a629b4339b6ec9307f353d48e211d9 data/c/tags/item/nuggets/tin.json
+82310a0f22219649a26c9521776defa3c25d2aed data/c/tags/item/nuggets/titanium.json
+6955e0f71cb5530aeb98ebad63794a7e9fe489f1 data/c/tags/item/nuggets/uranium.json
+e1583f9acceda7d42219038d59a048652fd5fb2d data/c/tags/item/nuggets/zinc.json
+49f95d28cb642d13365f20dd40d51c5b092e1584 data/c/tags/item/ores.json
+e4388901aa8ccf6a6c3713874eab71519cbe270e data/c/tags/item/ores_in_ground/deepslate.json
+2f84477eed1e7d2faffff8c9a08127dc8cadb766 data/c/tags/item/ores_in_ground/netherrack.json
+a8507eb401968f7a9212dc6786591149290a3ee8 data/c/tags/item/ores_in_ground/stone.json
+5e4de1516b3bd0faae3cae549da86f6ef7dd8712 data/c/tags/item/storage_blocks.json

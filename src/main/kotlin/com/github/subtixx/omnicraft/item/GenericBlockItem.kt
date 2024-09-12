@@ -8,7 +8,7 @@ import net.minecraft.world.level.block.Block
 
 
 open class GenericBlockItem(block: Block, properties: Properties) : BlockItem(block, properties) {
-    override fun appendHoverText(
+    /*override fun appendHoverText(
         pStack: ItemStack,
         pContext: TooltipContext,
         pTooltipComponents: MutableList<Component>,
@@ -16,5 +16,5 @@ open class GenericBlockItem(block: Block, properties: Properties) : BlockItem(bl
     ) {
         super.appendHoverText(pStack, pContext, pTooltipComponents, pTooltipFlag)
         pTooltipComponents.add(Component.translatable(this.getDescriptionId(pStack) + ".tooltip"))
-    }
+    }*/
 }
