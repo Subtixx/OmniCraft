@@ -34,39 +34,44 @@ For example you need a mod for the tape measure, a mod for the openblocks elevat
 
 <h1>🚀 Features</h1>
 
-| Title                                                                    | Status  | Created    |
-|--------------------------------------------------------------------------|---------|------------|
-| [Trading Station](https://github.com/Subtixx/OmniCraft/issues/35)        | Planned | 09/09/2024 |
-| [Energized Sawmill](https://github.com/Subtixx/OmniCraft/issues/34)      | Planned | 09/09/2024 |
-| [Tiny Coal](https://github.com/Subtixx/OmniCraft/issues/33)              | Planned | 09/09/2024 |
-| [Redstone Gates](https://github.com/Subtixx/OmniCraft/issues/32)         | Planned | 09/09/2024 |
-| [Redstone Conduit](https://github.com/Subtixx/OmniCraft/issues/31)       | Planned | 09/09/2024 |
-| [Liquid EXP](https://github.com/Subtixx/OmniCraft/issues/30)             | Planned | 09/09/2024 |
-| [Magnet Block](https://github.com/Subtixx/OmniCraft/issues/29)           | Planned | 09/09/2024 |
-| [Disenchanter](https://github.com/Subtixx/OmniCraft/issues/28)           | Planned | 09/09/2024 |
-| [Enchantment Generator](https://github.com/Subtixx/OmniCraft/issues/27)  | Planned | 09/09/2024 |
-| [Direhouse20](https://github.com/Subtixx/OmniCraft/issues/26)            | Planned | 09/09/2024 |
-| [Building Wand](https://github.com/Subtixx/OmniCraft/issues/25)          | Planned | 09/09/2024 |
-| [Item Minecart Loader](https://github.com/Subtixx/OmniCraft/issues/24)   | Planned | 09/09/2024 |
-| [Tape Measure](https://github.com/Subtixx/OmniCraft/issues/23)           | Planned | 09/09/2024 |
-| [Energy Minecart Loader](https://github.com/Subtixx/OmniCraft/issues/22) | Planned | 09/09/2024 |
-| [Fluid Minecart Loader](https://github.com/Subtixx/OmniCraft/issues/21)  | Planned | 09/09/2024 |
-| [Energy Minecart](https://github.com/Subtixx/OmniCraft/issues/20)        | Planned | 09/09/2024 |
-| [Fluid Minecart](https://github.com/Subtixx/OmniCraft/issues/19)         | Planned | 09/09/2024 |
-| [Battery Item](https://github.com/Subtixx/OmniCraft/issues/18)           | Planned | 09/09/2024 |
-| [Battery Block](https://github.com/Subtixx/OmniCraft/issues/17)          | Planned | 09/09/2024 |
-| [Solar Generator](https://github.com/Subtixx/OmniCraft/issues/16)        | Planned | 09/09/2024 |
-| [Wind Generator](https://github.com/Subtixx/OmniCraft/issues/15)         | Planned | 09/09/2024 |
-| [Simple Backpacks](https://github.com/Subtixx/OmniCraft/issues/14)       | Planned | 09/09/2024 |
-| [Magnet](https://github.com/Subtixx/OmniCraft/issues/13)                 | Planned | 09/09/2024 |
-| [Mega Torch](https://github.com/Subtixx/OmniCraft/issues/12)             | Planned | 09/09/2024 |
-| [Switch rails](https://github.com/Subtixx/OmniCraft/issues/11)           | Planned | 09/09/2024 |
-| [Bronze](https://github.com/Subtixx/OmniCraft/issues/10)                 | Planned | 09/09/2024 |
-| [Steel](https://github.com/Subtixx/OmniCraft/issues/9)                   | Planned | 09/09/2024 |
-| [Lava generator](https://github.com/Subtixx/OmniCraft/issues/8)          | Planned | 09/09/2024 |
-| [Energy Pulverizer](https://github.com/Subtixx/OmniCraft/issues/7)       | Planned | 09/09/2024 |
-| [Energized Furnace](https://github.com/Subtixx/OmniCraft/issues/6)       | Planned | 09/09/2024 |
-
+| Title                                                                       | Status         | Milestone                                                 | Created    |
+|-----------------------------------------------------------------------------|----------------|-----------------------------------------------------------|------------|
+| [Tiny Coal](https://github.com/Subtixx/OmniCraft/issues/33)                 | **_~~Done~~_** | [0.1.0](https://github.com/Subtixx/OmniCraft/milestone/3) | 09/09/2024 |
+| [Cobblegen](https://github.com/Subtixx/OmniCraft/issues/1)                  | Planned        | [0.1.0](https://github.com/Subtixx/OmniCraft/milestone/3) | 09/09/2024 |
+| [Steel](https://github.com/Subtixx/OmniCraft/issues/9)                      | Planned        | [0.1.0](https://github.com/Subtixx/OmniCraft/milestone/3) | 09/09/2024 |
+| [Bronze](https://github.com/Subtixx/OmniCraft/issues/10)                    | Planned        | [0.1.0](https://github.com/Subtixx/OmniCraft/milestone/3) | 09/09/2024 |
+| [Simple logistic item pipes](https://github.com/Subtixx/OmniCraft/issues/2) | Planned        | [0.2.0](https://github.com/Subtixx/OmniCraft/milestone/4) | 09/09/2024 |
+| [Simple fluid pipes](https://github.com/Subtixx/OmniCraft/issues/3)         | Planned        | [0.2.0](https://github.com/Subtixx/OmniCraft/milestone/4) | 09/09/2024 |
+| [Simple energy pipes](https://github.com/Subtixx/OmniCraft/issues/4)        | Planned        | [0.2.0](https://github.com/Subtixx/OmniCraft/milestone/4) | 09/09/2024 |
+| [Simple coal generator](https://github.com/Subtixx/OmniCraft/issues/5)      | Planned        | [0.2.0](https://github.com/Subtixx/OmniCraft/milestone/4) | 09/09/2024 |
+| [Energized Furnace](https://github.com/Subtixx/OmniCraft/issues/6)          | Planned        | [0.2.0](https://github.com/Subtixx/OmniCraft/milestone/4) | 09/09/2024 |
+| [Lava generator](https://github.com/Subtixx/OmniCraft/issues/8)             | Planned        | [0.2.0](https://github.com/Subtixx/OmniCraft/milestone/4) | 09/09/2024 |
+| [Wind Generator](https://github.com/Subtixx/OmniCraft/issues/15)            | Planned        | [0.2.0](https://github.com/Subtixx/OmniCraft/milestone/4) | 09/09/2024 |
+| [Solar Generator](https://github.com/Subtixx/OmniCraft/issues/16)           | Planned        | [0.2.0](https://github.com/Subtixx/OmniCraft/milestone/4) | 09/09/2024 |
+| [Battery Block](https://github.com/Subtixx/OmniCraft/issues/17)             | Planned        | [0.2.0](https://github.com/Subtixx/OmniCraft/milestone/4) | 09/09/2024 |
+| [Elevator](https://github.com/Subtixx/OmniCraft/issues/36)                  | Planned        | [0.2.0](https://github.com/Subtixx/OmniCraft/milestone/4) | 10/09/2024 |
+| [Energy Minecart Loader](https://github.com/Subtixx/OmniCraft/issues/22)    | Planned        | [1.0.0](https://github.com/Subtixx/OmniCraft/milestone/1) | 09/09/2024 |
+| [Item Minecart Loader](https://github.com/Subtixx/OmniCraft/issues/24)      | Planned        | [1.0.0](https://github.com/Subtixx/OmniCraft/milestone/1) | 09/09/2024 |
+| [Building Wand](https://github.com/Subtixx/OmniCraft/issues/25)             | Planned        | [1.0.0](https://github.com/Subtixx/OmniCraft/milestone/1) | 09/09/2024 |
+| [Direhouse20](https://github.com/Subtixx/OmniCraft/issues/26)               | Planned        | [1.0.0](https://github.com/Subtixx/OmniCraft/milestone/1) | 09/09/2024 |
+| [Enchantment Generator](https://github.com/Subtixx/OmniCraft/issues/27)     | Planned        | [1.0.0](https://github.com/Subtixx/OmniCraft/milestone/1) | 09/09/2024 |
+| [Disenchanter](https://github.com/Subtixx/OmniCraft/issues/28)              | Planned        | [1.0.0](https://github.com/Subtixx/OmniCraft/milestone/1) | 09/09/2024 |
+| [Magnet Block](https://github.com/Subtixx/OmniCraft/issues/29)              | Planned        | [1.0.0](https://github.com/Subtixx/OmniCraft/milestone/1) | 09/09/2024 |
+| [Liquid EXP](https://github.com/Subtixx/OmniCraft/issues/30)                | Planned        | [1.0.0](https://github.com/Subtixx/OmniCraft/milestone/1) | 09/09/2024 |
+| [Redstone Conduit](https://github.com/Subtixx/OmniCraft/issues/31)          | Planned        | [1.0.0](https://github.com/Subtixx/OmniCraft/milestone/1) | 09/09/2024 |
+| [Energized Sawmill](https://github.com/Subtixx/OmniCraft/issues/34)         | Planned        | [1.0.0](https://github.com/Subtixx/OmniCraft/milestone/1) | 09/09/2024 |
+| [Trading Station](https://github.com/Subtixx/OmniCraft/issues/35)           | Planned        | [1.0.0](https://github.com/Subtixx/OmniCraft/milestone/1) | 09/09/2024 |
+| [Switch rails](https://github.com/Subtixx/OmniCraft/issues/11)              | Planned        | [1.0.0](https://github.com/Subtixx/OmniCraft/milestone/1) | 09/09/2024 |
+| [Mega Torch](https://github.com/Subtixx/OmniCraft/issues/12)                | Planned        | [1.0.0](https://github.com/Subtixx/OmniCraft/milestone/1) | 09/09/2024 |
+| [Magnet](https://github.com/Subtixx/OmniCraft/issues/13)                    | Planned        | [1.0.0](https://github.com/Subtixx/OmniCraft/milestone/1) | 09/09/2024 |
+| [Simple Backpacks](https://github.com/Subtixx/OmniCraft/issues/14)          | Planned        | [1.0.0](https://github.com/Subtixx/OmniCraft/milestone/1) | 09/09/2024 |
+| [Battery Item](https://github.com/Subtixx/OmniCraft/issues/18)              | Planned        | [1.0.0](https://github.com/Subtixx/OmniCraft/milestone/1) | 09/09/2024 |
+| [Fluid Minecart](https://github.com/Subtixx/OmniCraft/issues/19)            | Planned        | [1.0.0](https://github.com/Subtixx/OmniCraft/milestone/1) | 09/09/2024 |
+| [Energy Minecart](https://github.com/Subtixx/OmniCraft/issues/20)           | Planned        | [1.0.0](https://github.com/Subtixx/OmniCraft/milestone/1) | 09/09/2024 |
+| [Fluid Minecart Loader](https://github.com/Subtixx/OmniCraft/issues/21)     | Planned        | [1.0.0](https://github.com/Subtixx/OmniCraft/milestone/1) | 09/09/2024 |
+| [Tape Measure](https://github.com/Subtixx/OmniCraft/issues/23)              | Planned        | [1.0.0](https://github.com/Subtixx/OmniCraft/milestone/1) | 09/09/2024 |
+| [Energy Pulverizer](https://github.com/Subtixx/OmniCraft/issues/7)          | Planned        | [1.0.0](https://github.com/Subtixx/OmniCraft/milestone/1) | 09/09/2024 |
+| [Redstone Gates](https://github.com/Subtixx/OmniCraft/issues/32)            | Planned        | None                                                      | 09/09/2024 |
 
 <h1>🐛 Issues</h1>
 <p>
