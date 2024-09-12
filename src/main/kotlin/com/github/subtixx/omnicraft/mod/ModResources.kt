@@ -14,6 +14,7 @@ object ModResources {
             "silver" to WorldResource("silver"),
             "tin" to WorldResource("tin"),
             "bronze" to WorldResource("bronze", addOre = false),
+            "steel" to WorldResource("steel", addOre = false),
             "lead" to WorldResource("lead"),
             "nickel" to WorldResource("nickel"),
             "platinum" to WorldResource("platinum"),
