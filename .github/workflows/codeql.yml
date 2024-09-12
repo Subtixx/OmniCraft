@@ -56,6 +56,8 @@ jobs:
     
       - name: Build with Gradle
         run: gradle build
+        env:
+          MODRINTH_TOKEN: ${{ secrets.MODRINTH_TOKEN }}
     
       - name: Perform CodeQL Analysis
         uses: github/codeql-action/analyze@v3

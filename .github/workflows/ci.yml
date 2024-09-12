@@ -38,6 +38,8 @@ jobs:
 
       - name: Build with Gradle
         run: gradle build
+        env:
+          MODRINTH_TOKEN: ${{ secrets.MODRINTH_TOKEN }}
 
   test:
     runs-on: ubuntu-latest
