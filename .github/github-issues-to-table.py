@@ -116,6 +116,9 @@ with open("issue_list.md", "w") as f:
     f.write("| --- | --- | --- | --- | --- |\n")
     print("Found " + str(len(data)) + " issues")
     for issue in issues:
+        if issue["status"] != "Done" and issue["status"] != "In review":
+            continue
+
         status = "**_~~Done~~_**"
         if issue["status"] != "Done":
             status = issue["status"]
