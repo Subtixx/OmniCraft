@@ -132,7 +132,8 @@ runs {
 
     create("server") {
         systemProperty("neoforge.enabledGameTestNamespaces", modId)
-        programArgument("--nogui")
+        //programArgument("--nogui")
+        argument("--nogui")
     }
 
     create("gameTestServer") {
