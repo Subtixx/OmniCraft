@@ -242,6 +242,10 @@ tasks.configureEach {
     }
 }
 
+val reportMerge by tasks.registering(io.gitlab.arturbosch.detekt.report.ReportMergeTask::class) {
+    output.set(rootProject.layout.buildDirectory.file("reports/detekt/merge.xml")) // or "reports/detekt/merge.sarif"
+}
+
 tasks {
     register<PotentiallySignJar>("signJar") {
         dependsOn(jar)
@@ -256,7 +260,6 @@ tasks {
         input.set(jar.get().archiveFile)
     }
     named<Jar>("jar") {
-        dependsOn(withType<Detekt>())
         finalizedBy(named<PotentiallySignJar>("signJar"))
     }
     withType<TaskModrinthUpload> {
@@ -264,7 +267,12 @@ tasks {
         dependsOn(modrinthSyncBody)
     }
 
+    withType<Test> {
+        dependsOn(withType<Detekt>())
+    }
+
     withType<Detekt>().configureEach {
+        finalizedBy(reportMerge)
         reports {
             html.required.set(true) // observe findings in your browser with structure and code snippets
             xml.required.set(true) // checkstyle like format mainly for integrations like Jenkins
@@ -278,6 +286,10 @@ tasks {
     }
     withType<DetektCreateBaselineTask>().configureEach {
         jvmTarget = jdkVersion
+    }
+
+    reportMerge {
+        input.from(withType<Detekt>().map { it.xmlReportFile }) // or .sarifReportFile
     }
 }
 

@@ -13,7 +13,7 @@
 </div>
 
 <div align="center">
-    <img src="https://img.shields.io/github/actions/workflow/status/subtixx/Omnicraft/.github%2Fworkflows%2Fgradle-publish.yml?style=flat-square&logo=github&label=Publish" alt="Publish" />
+    <img src="https://img.shields.io/github/actions/workflow/status/subtixx/Omnicraft/.github%2Fworkflows%2Fci.yml?style=flat-square&logo=github&label=CI" alt="CI" />
     <img src="https://img.shields.io/github/deployments/subtixx/Omnicraft/github-pages?style=flat-square&logo=github&label=Docs" alt="Docs" />
 </div>
 
