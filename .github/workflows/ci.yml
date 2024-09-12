@@ -73,6 +73,8 @@ jobs:
 
       - name: Run detekt
         run: gradle detekt
+        env:
+          MODRINTH_TOKEN: ${{ secrets.MODRINTH_TOKEN }}
 
       - name: Upload SARIF to GitHub using the upload-sarif action
         uses: github/codeql-action/upload-sarif@v2
@@ -87,6 +89,11 @@ jobs:
 
       - name: Perform CodeQL Analysis
         uses: github/codeql-action/analyze@v3
+
+      - name: Delete shared artifact
+        uses: geekyeggo/delete-artifact@v5.0.0
+        with:
+          name: build
 
   publish:
     runs-on: ubuntu-latest
