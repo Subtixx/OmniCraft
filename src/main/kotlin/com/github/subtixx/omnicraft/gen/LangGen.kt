@@ -18,5 +18,7 @@ class LangGen(output: PackOutput) : LanguageProvider(
         add("item.omnicraft.wrench", "Wrench")
         add("item.omnicraft.tiny_coal", "Tiny Coal",)
         add("item.omnicraft.tiny_charcoal", "Tiny Charcoal")
+
+        add("tag.block.c.ores_in_ground.end_stone", "End Stone Ores")
     }
 }

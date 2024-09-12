@@ -1,4 +1,4 @@
-// 1.21.1	2024-09-12T13:03:55.673624875	vanilla/Tags for minecraft:item mod id omnicraft
+// 1.21.1	2024-09-12T13:19:54.923175921	vanilla/Tags for minecraft:item mod id omnicraft
 1b23abb7cbd6ed9d7559064c77edf86f7a218f4b data/c/tags/item/ingots.json
 8ecaf21f6334ab274444fa420902ff9e4346ca0e data/c/tags/item/ingots/aluminum.json
 ed587bc2006355328790c84c68eb8691c1f201c7 data/c/tags/item/ingots/bronze.json
@@ -22,7 +22,17 @@ e8f3870d09a629b4339b6ec9307f353d48e211d9 data/c/tags/item/nuggets/tin.json
 6955e0f71cb5530aeb98ebad63794a7e9fe489f1 data/c/tags/item/nuggets/uranium.json
 e1583f9acceda7d42219038d59a048652fd5fb2d data/c/tags/item/nuggets/zinc.json
 49f95d28cb642d13365f20dd40d51c5b092e1584 data/c/tags/item/ores.json
+4f28f47c4e2a14fda5e80d6514e262b31af72cba data/c/tags/item/ores/aluminum.json
+39a818bdedb6f05a068014f2affdcc950a29e42c data/c/tags/item/ores/lead.json
+ceffac40929374d72b3671db449e54816b1b3e8a data/c/tags/item/ores/nickel.json
+cab214605373fa28b28d3e51f827ecf0ab37fe09 data/c/tags/item/ores/platinum.json
+f042db9bb170e43e9e20cce7e98eaa9ea96c04ca data/c/tags/item/ores/silver.json
+d0c04de999588f551a7b3652869e90ef6b88dc12 data/c/tags/item/ores/tin.json
+9f9457d24d9071636abf5d8b7a30971a56b0a318 data/c/tags/item/ores/titanium.json
+77c41e96bb862f6673d04d97c72963ea14a954fa data/c/tags/item/ores/uranium.json
+f79b06294779f26b01004197e991367f7e60e9a6 data/c/tags/item/ores/zinc.json
 e4388901aa8ccf6a6c3713874eab71519cbe270e data/c/tags/item/ores_in_ground/deepslate.json
+2b8d9740438c953908d4909578af72c48769c1ef data/c/tags/item/ores_in_ground/end_stone.json
 2f84477eed1e7d2faffff8c9a08127dc8cadb766 data/c/tags/item/ores_in_ground/netherrack.json
 a8507eb401968f7a9212dc6786591149290a3ee8 data/c/tags/item/ores_in_ground/stone.json
 5e4de1516b3bd0faae3cae549da86f6ef7dd8712 data/c/tags/item/storage_blocks.json

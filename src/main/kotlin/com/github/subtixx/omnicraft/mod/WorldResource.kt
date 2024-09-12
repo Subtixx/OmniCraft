@@ -51,6 +51,9 @@ class WorldResource(
     var nugget: DeferredItem<Item>? = null
 
     val oreTag: TagKey<Block> = BlockTagsProvider.forge("ores/$name")
+    val oreItemTag: TagKey<Item> = ItemTagsProvider.forge("ores/$name")
+    val oreInEndStoneTag: TagKey<Block> = BlockTagsProvider.forge("ores_in_ground/end_stone")
+    val oreInEndStoneItemTag: TagKey<Item> = ItemTagsProvider.forge("ores_in_ground/end_stone")
     val ingotTag: TagKey<Item> = ItemTagsProvider.forge("ingots/$name")
     val nuggetTag: TagKey<Item> = ItemTagsProvider.forge("nuggets/$name")
     val storageBlockTag: TagKey<Block> = BlockTagsProvider.forge("storage_blocks/$name")
@@ -168,6 +171,12 @@ class WorldResource(
             itemTagsProvider.tag(net.neoforged.neoforge.common.Tags.Items.ORES_IN_GROUND_STONE)
                 .add(oreBlockItem!!.get())
                 .replace(false)
+            itemTagsProvider.tag(oreItemTag)
+                .add(oreBlockItem!!.get())
+                .replace(false)
+            itemTagsProvider.tag(oreItemTag)
+                .add(rawOreItem!!.get())
+                .replace(false)
 
             if (addNetherOre) {
                 itemTagsProvider.tag(net.neoforged.neoforge.common.Tags.Items.ORES)
@@ -176,9 +185,18 @@ class WorldResource(
                 itemTagsProvider.tag(net.neoforged.neoforge.common.Tags.Items.ORES_IN_GROUND_NETHERRACK)
                     .add(netherOreBlockItem!!.get())
                     .replace(false)
+                itemTagsProvider.tag(oreItemTag)
+                    .add(netherOreBlockItem!!.get())
+                    .replace(false)
             }
             if (addEnderOre) {
+                itemTagsProvider.tag(oreInEndStoneItemTag)
+                    .add(enderOreBlockItem!!.get())
+                    .replace(false)
                 itemTagsProvider.tag(net.neoforged.neoforge.common.Tags.Items.ORES)
+                    .add(enderOreBlockItem!!.get())
+                    .replace(false)
+                itemTagsProvider.tag(oreItemTag)
                     .add(enderOreBlockItem!!.get())
                     .replace(false)
             }
@@ -189,27 +207,33 @@ class WorldResource(
                 itemTagsProvider.tag(net.neoforged.neoforge.common.Tags.Items.ORES_IN_GROUND_DEEPSLATE)
                     .add(deepslateOreBlockItem!!.get())
                     .replace(false)
+                itemTagsProvider.tag(oreItemTag)
+                    .add(deepslateOreBlockItem!!.get())
+                    .replace(false)
             }
         }
     }
 
     fun addBlockTags(blockTagsProvider: BlockTagsProvider) {
         if (addOre) {
-            blockTagsProvider.tag(oreTag)
+            blockTagsProvider.tag(net.neoforged.neoforge.common.Tags.Blocks.ORES)
                 .add(oreBlock!!.get())
                 .replace(false)
             blockTagsProvider.tag(net.neoforged.neoforge.common.Tags.Blocks.ORES_IN_GROUND_STONE)
                 .add(oreBlock!!.get())
                 .replace(false)
-            blockTagsProvider.tag(net.neoforged.neoforge.common.Tags.Blocks.ORES)
+            blockTagsProvider.tag(oreTag)
                 .add(oreBlock!!.get())
                 .replace(false)
 
             if (addNetherOre) {
+                blockTagsProvider.tag(net.neoforged.neoforge.common.Tags.Blocks.ORES)
+                    .add(netherOreBlock!!.get())
+                    .replace(false)
                 blockTagsProvider.tag(net.neoforged.neoforge.common.Tags.Blocks.ORES_IN_GROUND_NETHERRACK)
                     .add(netherOreBlock!!.get())
                     .replace(false)
-                blockTagsProvider.tag(net.neoforged.neoforge.common.Tags.Blocks.ORES)
+                blockTagsProvider.tag(oreTag)
                     .add(netherOreBlock!!.get())
                     .replace(false)
             }
@@ -217,12 +241,21 @@ class WorldResource(
                 blockTagsProvider.tag(net.neoforged.neoforge.common.Tags.Blocks.ORES)
                     .add(enderOreBlock!!.get())
                     .replace(false)
+                blockTagsProvider.tag(oreInEndStoneTag)
+                    .add(enderOreBlock!!.get())
+                    .replace(false)
+                blockTagsProvider.tag(oreTag)
+                    .add(enderOreBlock!!.get())
+                    .replace(false)
             }
             if (addDeepslateOre) {
+                blockTagsProvider.tag(net.neoforged.neoforge.common.Tags.Blocks.ORES)
+                    .add(deepslateOreBlock!!.get())
+                    .replace(false)
                 blockTagsProvider.tag(net.neoforged.neoforge.common.Tags.Blocks.ORES_IN_GROUND_DEEPSLATE)
                     .add(deepslateOreBlock!!.get())
                     .replace(false)
-                blockTagsProvider.tag(net.neoforged.neoforge.common.Tags.Blocks.ORES)
+                blockTagsProvider.tag(oreTag)
                     .add(deepslateOreBlock!!.get())
                     .replace(false)
             }
@@ -412,6 +445,7 @@ class WorldResource(
             }
 
             langGen.add("tag.block.c.ores.$name", "$oreName Ores")
+            langGen.add("tag.item.c.ores.$name", "$oreName Ores")
         }
         langGen.add(storageBlock!!.get(), "$oreName Block")
         langGen.add(ingot!!.get(), "$oreName Ingot")
