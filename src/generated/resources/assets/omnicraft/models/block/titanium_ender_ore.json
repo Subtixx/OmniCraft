@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:block/cube_all",
+  "textures": {
+    "all": "omnicraft:block/ores/end/titanium_ore"
+  }
+}

@@ -2,7 +2,7 @@ package com.github.subtixx.omnicraft.gen
 
 import com.github.subtixx.omnicraft.Omnicraft
 import com.github.subtixx.omnicraft.mod.ModResources
-import com.github.subtixx.omnicraft.mod.WorldResource
+import com.github.subtixx.omnicraft.resources.WorldResource
 import net.minecraft.core.registries.BuiltInRegistries
 import net.minecraft.data.PackOutput
 import net.minecraft.resources.ResourceLocation

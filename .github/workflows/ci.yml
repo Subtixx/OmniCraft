@@ -35,6 +35,12 @@ jobs:
         env:
           MODRINTH_TOKEN: ${{ secrets.MODRINTH_TOKEN }}
 
+      - name: Upload build artifact
+        uses: actions/upload-artifact@v4.4.0
+        with:
+          name: jar
+          path: build/libs/omnicraft-*.jar
+
       - uses: actions/upload-artifact@v4.4.0
         with:
           name: build
@@ -77,10 +83,16 @@ jobs:
           MODRINTH_TOKEN: ${{ secrets.MODRINTH_TOKEN }}
 
       - name: Upload SARIF to GitHub using the upload-sarif action
-        uses: github/codeql-action/upload-sarif@v2
+        uses: github/codeql-action/upload-sarif@v3
         if: success() || failure()
         with:
           sarif_file: build/reports/detekt/detekt.sarif
+
+      - name: Upload Reports
+        uses: actions/upload-artifact@v4.4.0
+        with:
+          name: reports
+          path: build/reports
 
       - name: Test with Gradle
         run: gradle test
@@ -155,6 +167,7 @@ jobs:
           name: ${{ github.ref_name }}
           body: ${{ steps.changelog.outputs.changes }}
           token: ${{ github.token }}
+          artifacts: jar
 
       - name: Commit CHANGELOG.md
         uses: stefanzweifel/git-auto-commit-action@v5

@@ -1,6 +1,7 @@
 package com.github.subtixx.omnicraft.mod
 
 import com.github.subtixx.omnicraft.gen.*
+import com.github.subtixx.omnicraft.resources.WorldResource
 import com.github.subtixx.omnicraft.tags.BiomeTagsProvider
 import com.github.subtixx.omnicraft.tags.BlockTagsProvider
 import com.github.subtixx.omnicraft.tags.CurioTagsProvider

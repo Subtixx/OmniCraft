@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:block/cube_all",
+  "textures": {
+    "all": "omnicraft:block/ores/overworld/iridium_ore"
+  }
+}

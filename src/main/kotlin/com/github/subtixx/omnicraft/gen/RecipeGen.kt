@@ -1,11 +1,13 @@
 package com.github.subtixx.omnicraft.gen
 
+import com.github.subtixx.omnicraft.Omnicraft
 import com.github.subtixx.omnicraft.mod.ModItems
 import com.github.subtixx.omnicraft.mod.ModResources
-import com.github.subtixx.omnicraft.mod.WorldResource
+import com.github.subtixx.omnicraft.resources.WorldResource
 import net.minecraft.core.HolderLookup
 import net.minecraft.data.PackOutput
 import net.minecraft.data.recipes.*
+import net.minecraft.resources.ResourceLocation
 import net.minecraft.world.item.ItemStack
 import net.minecraft.world.item.Items
 import java.util.concurrent.CompletableFuture
@@ -27,19 +29,22 @@ class RecipeGen(packOutput: PackOutput, completableFuture: CompletableFuture<Hol
                     .pattern("XXX")
                     .define('X', worldResource.ingot!!)
                     .unlockedBy("has_item", has(worldResource.ingot!!))
-                    .save(recipeOutput)
+                    .save(recipeOutput, ResourceLocation.fromNamespaceAndPath(Omnicraft.ID,
+                        RecipeBuilder.getDefaultRecipeId(worldResource.storageBlockItem!!).path))
 
                 ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC, ItemStack(worldResource.ingot!!.get(), 9))
                     .requires(worldResource.storageBlock!!)
                     .unlockedBy("has_item", has(worldResource.storageBlock!!))
-                    .save(recipeOutput)
+                    .save(recipeOutput, ResourceLocation.fromNamespaceAndPath(Omnicraft.ID,
+                        RecipeBuilder.getDefaultRecipeId(worldResource.ingot!!).path))
             }
 
             if (worldResource.nugget != null && worldResource.ingot != null) {
                 ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC, ItemStack(worldResource.nugget!!.get(), 9))
                     .requires(worldResource.ingot!!)
                     .unlockedBy("has_item", has(worldResource.ingot!!))
-                    .save(recipeOutput)
+                    .save(recipeOutput, ResourceLocation.fromNamespaceAndPath(Omnicraft.ID,
+                        RecipeBuilder.getDefaultRecipeId(worldResource.nugget!!).path))
             }
         }
 

@@ -1,0 +1,19 @@
+{
+  "values": [
+    "omnicraft:aluminum_nether_ore",
+    "omnicraft:cinnabar_nether_ore",
+    "omnicraft:iridium_nether_ore",
+    "omnicraft:lead_nether_ore",
+    "omnicraft:nickel_nether_ore",
+    "omnicraft:osmium_nether_ore",
+    "omnicraft:platinum_nether_ore",
+    "omnicraft:ruby_nether_ore",
+    "omnicraft:sapphire_nether_ore",
+    "omnicraft:silver_nether_ore",
+    "omnicraft:sulfur_nether_ore",
+    "omnicraft:tin_nether_ore",
+    "omnicraft:titanium_nether_ore",
+    "omnicraft:uranium_nether_ore",
+    "omnicraft:zinc_nether_ore"
+  ]
+}
