@@ -103,7 +103,7 @@ jobs:
         uses: github/codeql-action/analyze@v3
 
       - name: Delete shared artifact
-        uses: geekyeggo/delete-artifact@v5.0.0
+        uses: geekyeggo/delete-artifact@v5.1.0
         with:
           name: build
 
