@@ -2,6 +2,7 @@ package com.github.subtixx.omnicraft.mod
 
 import com.github.subtixx.omnicraft.utils.encodeStack
 import net.minecraft.ChatFormatting
+import net.minecraft.client.Minecraft
 import net.minecraft.network.chat.Component
 import net.neoforged.neoforge.event.entity.player.ItemTooltipEvent
 
@@ -13,6 +14,9 @@ object ModTools {
      * @param event
      */
     fun onTooltip(event: ItemTooltipEvent) {
+        if(!Minecraft.getInstance().options.advancedItemTooltips) {
+            return
+        }
         val stack = event.itemStack
 
         event.toolTip.add(Component.empty())

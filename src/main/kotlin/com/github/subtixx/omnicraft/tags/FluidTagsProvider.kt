@@ -1,6 +1,7 @@
 package com.github.subtixx.omnicraft.tags
 
 import com.github.subtixx.omnicraft.Omnicraft
+import com.github.subtixx.omnicraft.mod.ModResources
 import net.minecraft.core.HolderLookup
 import net.minecraft.data.PackOutput
 import net.minecraft.data.tags.FluidTagsProvider
@@ -17,7 +18,15 @@ class FluidTagsProvider(
     existingFileHelper: ExistingFileHelper
 ) : FluidTagsProvider(packOutput, lookupProvider, Omnicraft.ID, existingFileHelper) {
     override fun addTags(provider: HolderLookup.Provider) {
+        ModResources.RESOURCES.forEach { (_, resource) ->
+            resource.addFluidTags(this)
+        }
     }
+
+    public override fun tag(tag: TagKey<Fluid>): IntrinsicTagAppender<Fluid> {
+        return super.tag(tag)
+    }
+
     companion object {
         fun forge(tag: String): TagKey<Fluid> {
             return FluidTags.create(ResourceLocation.fromNamespaceAndPath("c", tag))

@@ -1,23 +1,41 @@
 package com.github.subtixx.omnicraft.resources
 
 import com.github.subtixx.omnicraft.Omnicraft
+import com.github.subtixx.omnicraft.fluids.BaseMetalFluid
 import com.github.subtixx.omnicraft.gen.BlockModelGen
 import com.github.subtixx.omnicraft.gen.ItemModelGen
 import com.github.subtixx.omnicraft.gen.LootGen
 import com.github.subtixx.omnicraft.item.GenericBlockItem
+import com.github.subtixx.omnicraft.mod.ModBlocks
+import com.github.subtixx.omnicraft.mod.ModFluids.FLUIDS
+import com.github.subtixx.omnicraft.mod.ModFluids.FLUID_TYPES
+import com.github.subtixx.omnicraft.mod.ModItems
 import com.github.subtixx.omnicraft.tags.BlockTagsProvider
+import com.github.subtixx.omnicraft.tags.FluidTagsProvider
 import com.github.subtixx.omnicraft.tags.ItemTagsProvider
 import net.minecraft.resources.ResourceLocation
+import net.minecraft.tags.BlockTags
 import net.minecraft.tags.TagKey
 import net.minecraft.world.item.BlockItem
+import net.minecraft.world.item.BucketItem
 import net.minecraft.world.item.CreativeModeTabs
 import net.minecraft.world.item.Item
 import net.minecraft.world.level.block.Block
 import net.minecraft.world.level.block.Blocks
+import net.minecraft.world.level.block.LiquidBlock
 import net.minecraft.world.level.block.state.BlockBehaviour
+import net.minecraft.world.level.levelgen.feature.ConfiguredFeature
+import net.minecraft.world.level.levelgen.feature.Feature
+import net.minecraft.world.level.levelgen.feature.configurations.OreConfiguration
+import net.minecraft.world.level.levelgen.structure.templatesystem.TagMatchTest
+import net.minecraft.world.level.material.FlowingFluid
+import net.minecraft.world.level.material.Fluid
 import net.neoforged.neoforge.common.data.LanguageProvider
 import net.neoforged.neoforge.event.BuildCreativeModeTabContentsEvent
+import net.neoforged.neoforge.fluids.FluidType
+import net.neoforged.neoforge.fluids.FluidType.Properties
 import net.neoforged.neoforge.registries.DeferredBlock
+import net.neoforged.neoforge.registries.DeferredHolder
 import net.neoforged.neoforge.registries.DeferredItem
 import net.neoforged.neoforge.registries.DeferredRegister
 import java.util.*
@@ -35,7 +53,10 @@ open class WorldResource(
     open val addStorageBlock: Boolean = true,
     open val addRawOre: Boolean = true,
     val smeltExperience: Float = 0.7F,
-    val smeltTime: Int = 200
+    val smeltTime: Int = 200,
+
+    open val addFluid: Boolean = true,
+    val fluidColor: Int = 0xFFFFFF,
 ) {
     val oreName: String = name + "_ore"
     var oreBlock: DeferredBlock<Block>? = null
@@ -54,6 +75,8 @@ open class WorldResource(
     var ingot: DeferredItem<Item>? = null
     var nugget: DeferredItem<Item>? = null
 
+    var oreGen: ConfiguredFeature<*, *>? = null
+
     val oreTag: TagKey<Block> = BlockTagsProvider.forge("ores/$name")
     val oreItemTag: TagKey<Item> = ItemTagsProvider.forge("ores/$name")
     val oreInEndStoneTag: TagKey<Block> = BlockTagsProvider.forge("ores_in_ground/end_stone")
@@ -62,6 +85,18 @@ open class WorldResource(
     val nuggetTag: TagKey<Item> = ItemTagsProvider.forge("nuggets/$name")
     val storageBlockTag: TagKey<Block> = BlockTagsProvider.forge("storage_blocks/$name")
     val storageBlockItemTag: TagKey<Item> = ItemTagsProvider.forge("storage_blocks/$name")
+
+    var sourceFluid: DeferredHolder<Fluid, FlowingFluid>? = null
+    var flowingFluid: DeferredHolder<Fluid, FlowingFluid>? = null
+
+    var sourceFluidBlock: DeferredBlock<LiquidBlock>? = null
+    var flowingFluidBlock: DeferredBlock<LiquidBlock>? = null
+
+    var fluidBucket: DeferredItem<BucketItem>? = null
+
+    var fluidType: DeferredHolder<FluidType, FluidType>? = null
+
+    val fluidTag: TagKey<Fluid> = FluidTagsProvider.forge("fluids/$name")
 
     open fun registerBlocks(blockRegister: DeferredRegister.Blocks) {
         if (addOre) {
@@ -162,6 +197,41 @@ open class WorldResource(
                     }
             }
         }
+    }
+
+    open fun registerFluids() {
+        if (!addFluid) return
+        flowingFluidBlock = ModBlocks.REGISTRY.register(name + "_flowing_fluid") { ->
+            LiquidBlock(flowingFluid!!.get(),
+                BlockBehaviour.Properties.ofFullCopy(Blocks.LAVA)
+            )
+        }
+
+        fluidType = FLUID_TYPES.register(name + "_fluid") { ->
+            FluidType(
+                Properties.create()
+                    .temperature(1478) // Temperature of Cast Iron Melting Point
+                    .density(1000)
+                    .viscosity(1000)
+            )
+        }
+        sourceFluid = FLUIDS.register(name + "_fluid") { ->
+            BaseMetalFluid.Source(
+                flowingFluidBlock!!,
+                flowingFluid!!,
+                fluidBucket!!,
+                fluidType!!
+            )
+        }
+        flowingFluid = FLUIDS.register(name + "_flowing_fluid") { ->
+            BaseMetalFluid.Flowing(
+                flowingFluidBlock!!,
+                sourceFluid!!,
+                fluidBucket!!,
+                fluidType!!
+            )
+        }
+        fluidBucket = ModItems.createBucketItem(name, sourceFluid!!)
     }
 
     fun addItemTags(itemTagsProvider: ItemTagsProvider) {
@@ -330,7 +400,7 @@ open class WorldResource(
         }
     }
 
-    fun registerStatesAndModels(blockModelGen: BlockModelGen) {
+    open fun registerStatesAndModels(blockModelGen: BlockModelGen) {
         if (addOre && oreBlockItem != null && oreBlock != null) {
             blockModelGen.simpleBlock(
                 oreBlock!!.get(),
@@ -542,5 +612,50 @@ open class WorldResource(
             langGen.add(nugget!!.get(), "$oreName Nugget")
             langGen.add("tag.item.c.nuggets.$name", "$oreName Nuggets")
         }
+    }
+
+    fun registerOreGen() {
+        if (!addOre) return
+
+        oreGen =
+            ConfiguredFeature(
+                Feature.ORE,
+                OreConfiguration(
+                    listOfNotNull(
+                        OreConfiguration.target(
+                            TagMatchTest(BlockTags.STONE_ORE_REPLACEABLES),
+                            oreBlock!!.get().defaultBlockState()
+                        ),
+                        if (addDeepslateOre) {
+                            OreConfiguration.target(
+                                TagMatchTest(BlockTags.DEEPSLATE_ORE_REPLACEABLES),
+                                deepslateOreBlock!!.get().defaultBlockState()
+                            )
+                        } else null,
+                        if (addNetherOre) {
+                            OreConfiguration.target(
+                                TagMatchTest(BlockTags.BASE_STONE_NETHER),
+                                netherOreBlock!!.get().defaultBlockState()
+                            )
+                        } else null,
+                        /*if (addEnderOre) {
+                            OreConfiguration.target(
+                                TagMatchTest(BlockTags.BASE_STONE_END),
+                                enderOreBlock!!.get().defaultBlockState()
+                            )
+                        } else null*/
+                    ),
+                    10
+                )
+            )
+    }
+
+    fun addFluidTags(fluidTagsProvider: FluidTagsProvider) {
+        if (!addFluid) return
+
+        fluidTagsProvider.tag(fluidTag)
+            .add(sourceFluid!!.get())
+            .add(flowingFluid!!.get())
+            .replace(false)
     }
 }

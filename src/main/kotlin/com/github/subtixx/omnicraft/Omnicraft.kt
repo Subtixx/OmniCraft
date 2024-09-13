@@ -30,14 +30,13 @@ class Omnicraft(modEventBus: IEventBus, modContainer: ModContainer) {
         modContainer.registerConfig(ModConfig.Type.SERVER, ServerConfig.spec)
         modContainer.registerConfig(ModConfig.Type.COMMON, CommonConfig.spec)
 
-        modEventBus.addListener(ModEvents::gatherData)
-        modEventBus.addListener(ModEvents::addCreativeTabs)
-
-        // Tooltip
-        FORGE_BUS.addListener(ModEvents::onTooltip)
+        ModEvents.register(modEventBus)
 
         ModBlockBehaviors.register()
         ModDataComponentTypes.REGISTRY.register(MOD_BUS)
+
+        ModFluids.FLUIDS.register(MOD_BUS)
+        ModFluids.FLUID_TYPES.register(MOD_BUS)
 
         ModBlocks.REGISTRY.register(MOD_BUS)
         ModBlocksEnergy.REGISTRY.register(MOD_BUS)
@@ -57,5 +56,7 @@ class Omnicraft(modEventBus: IEventBus, modContainer: ModContainer) {
         ModMenusEnergy.REGISTRY.register(MOD_BUS)
 
         ModSounds.REGISTRY.register(MOD_BUS)
+
+        modEventBus.addListener(ModFluids::registerClientExtensionsEvent)
     }
 }

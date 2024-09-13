@@ -21,6 +21,7 @@ class GemWorldResource(
     override val addSmelting: Boolean = false,
     override val addRecipe: Boolean = false,
     override val addRawOre: Boolean = false,
+    override val addFluid: Boolean = false,
 ) : WorldResource(name)
 {
     var gemItem: DeferredItem<Item>? = null

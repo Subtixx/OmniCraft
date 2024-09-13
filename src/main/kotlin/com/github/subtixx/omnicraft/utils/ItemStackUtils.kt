@@ -42,8 +42,8 @@ fun ItemStack.cycleCurrentFace(serverPlayer: ServerPlayer) {
     serverPlayer.connection.send(
         ClientboundSetActionBarTextPacket(
             Component.translatable(
-                "tooltip.energizedpower.wrench.select_face",
-                Component.translatable("tooltip.energizedpower.direction." + currentFace.serializedName).withStyle
+                "tooltip.omnicraft.wrench.select_face",
+                Component.translatable("tooltip.omnicraft.direction." + currentFace.serializedName).withStyle
                     (ChatFormatting.WHITE, ChatFormatting.BOLD)
             ).withStyle(ChatFormatting.GRAY)
         )
