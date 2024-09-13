@@ -1,0 +1,15 @@
+[general]
+# Ignore rules, reference them by id or name (comma-separated)
+ignore=B6
+
+# Enable specific community contributed rules
+contrib=contrib-title-conventional-commits
+
+# Set the extra-path where gitlint will search for user defined rules
+#extra-path=./gitlint_rules/my_rules.py
+
+[title-max-length]
+line-length=80
+
+[title-min-length]
+min-length=5
