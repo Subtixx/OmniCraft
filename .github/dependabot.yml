@@ -13,10 +13,6 @@ updates:
     directory: "/"
     schedule:
       interval: "weekly"
-  - package-ecosystem: "maven"
-    directory: "/"
-    schedule:
-      interval: "weekly"
   - package-ecosystem: "pip"
     directory: "/"
     schedule:
