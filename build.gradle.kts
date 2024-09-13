@@ -57,7 +57,7 @@ plugins {
     `maven-publish`
     id("net.neoforged.gradle.userdev") version "7.0.162"
     id("org.jetbrains.kotlin.jvm") version "2.0.20"
-    id("org.jetbrains.kotlin.plugin.serialization") version "2.0.0"
+    id("org.jetbrains.kotlin.plugin.serialization") version "2.0.20"
     id("org.jetbrains.gradle.plugin.idea-ext") version "1.1.8"
     id("io.gitlab.arturbosch.detekt") version "1.23.7"
     id("com.modrinth.minotaur") version "2.+"
