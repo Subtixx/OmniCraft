@@ -19,7 +19,7 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Set up JDK 21
-        uses: actions/setup-java@v4.3.0
+        uses: actions/setup-java@v4.4.0
         with:
           java-version: '21'
           distribution: 'temurin'
@@ -66,7 +66,7 @@ jobs:
           name: build
 
       - name: Set up JDK 21
-        uses: actions/setup-java@v4.3.0
+        uses: actions/setup-java@v4.4.0
         with:
           java-version: '21'
           distribution: 'temurin'
@@ -116,7 +116,7 @@ jobs:
       packages: write
     steps:
       - name: Set up JDK 21
-        uses: actions/setup-java@v4.3.0
+        uses: actions/setup-java@v4.4.0
         with:
           java-version: '21'
           distribution: 'temurin'
