@@ -36,12 +36,12 @@ jobs:
           MODRINTH_TOKEN: ${{ secrets.MODRINTH_TOKEN }}
 
       - name: Upload build artifact
-        uses: actions/upload-artifact@v4.4.0
+        uses: actions/upload-artifact@v4.4.3
         with:
           name: jar
           path: build/libs/omnicraft-*.jar
 
-      - uses: actions/upload-artifact@v4.4.0
+      - uses: actions/upload-artifact@v4.4.3
         with:
           name: build
           path: .
@@ -89,7 +89,7 @@ jobs:
           sarif_file: build/reports/detekt/detekt.sarif
 
       - name: Upload Reports
-        uses: actions/upload-artifact@v4.4.0
+        uses: actions/upload-artifact@v4.4.3
         with:
           name: reports
           path: build/reports
